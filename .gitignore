@@ -4,3 +4,6 @@ build/
 dist/
 .launcher.json 
 **.pyc 
+
+# Apptainer container files 
+**.sif 
