@@ -1,0 +1,10 @@
+Bootstrap: docker
+From: aiidalab/full-stack 
+
+%startscript 
+    start.sh jupyter notebook $NOTEBOOK_ARGS 
+
+
+%labels
+    Author Dr Benjamin T. Speake <benjamin.speake@stfc.ac.uk> 
+    Version v0.0.1
