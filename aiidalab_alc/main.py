@@ -1,8 +1,14 @@
 import ipywidgets as ipw 
+import aiidalab_widgets_base as awb
 from IPython.display import display, Image
 from datetime import datetime 
+from functools import partial
 
-from .utils import getAppDir 
+
+from .resources import ComputationalResourcesWizardStep
+from .structure import StructureWizardStep
+from .workflow import MethodWizardStep
+from .utils import getAppDir, getChemShellParams, openLinkInNewTab
 
 
 class MainApp:
@@ -32,6 +38,43 @@ class MainAppView(ipw.VBox):
             """
         )
 
+        self.newCalcLink = ipw.Button(
+            description="New Calculation", 
+            disabled=False, 
+            button_style="primary", 
+            tooltip="Start a new calculation", 
+            icon="plus",
+        )
+        self.newCalcLink.on_click(partial(openLinkInNewTab, "main.ipynb"))
+
+        self.setupResourcesLink = ipw.Button(
+            description="Setup Resources", 
+            disabled=False, 
+            button_style="primary",
+            tooltip="Configure Computational Resources",
+            icon="cogs",
+            # on_click=partial(onLinkClick, getAppDir() / "../home/code_setup.ipynb"),
+        )
+        self.setupResourcesLink.on_click(partial(openLinkInNewTab, "../home/code_setup.ipynb"))
+
+        self.docsLink = ipw.Button(
+            description="Documentation", 
+            disabled=False, 
+            button_style="info", 
+            tooltip="Open Documentation", 
+            icon="book",
+        )
+        self.docsLink.on_click(partial(openLinkInNewTab, "https://github.com/stfc/alc-ux"))
+
+        quickAccess = ipw.HBox(
+            children=[
+                self.newCalcLink,
+                self.setupResourcesLink,
+                self.docsLink,
+            ],
+            layout={'margin': 'auto'}
+        )
+
         header = ipw.VBox(
             children=[
                 logo, subtitle,
@@ -41,13 +84,62 @@ class MainAppView(ipw.VBox):
 
         footer = ipw.HTML(f"""
             <footer>
-                Copyright (c) {datetime.now().year} Ada Lovelace Center (STFC) <br>       
+                Copyright (c) {datetime.now().year} Ada Lovelace Centre (STFC) <br>       
             </footer>
     
             """,
             layout={"align-content": "right"})
 
+        self.main = WizardWidget()
+
         super().__init__(
             layout={},
-            children=[header,footer],
+            children=[
+                header,
+                quickAccess,
+                self.main,
+                footer
+            ],
         )
+
+class WizardWidget(ipw.VBox):
+    def __init__(self, **kwargs):
+        self.structureStep = StructureWizardStep()
+        self.workflowStep = MethodWizardStep()
+        self.compResourceStep = ComputationalResourcesWizardStep()
+
+        self._wizard_app_widget = awb.WizardAppWidget(
+            steps=[
+                ("Select Structure", self.structureStep),
+                ("Select Workflow", self.workflowStep),
+                ("Configure Resources", self.compResourceStep),
+            ]
+        )
+
+        self._wizard_app_widget.observe(
+            self.onStepChange, "selected_index",
+        )
+
+        # Hide the header 
+        self._wizard_app_widget.children[0].layout.display = "none"
+
+        super().__init__(
+            children=[self._wizard_app_widget], 
+            **kwargs,
+        )
+        
+        self._wizard_app_widget.selected_index = None 
+
+        return 
+    
+    @property
+    def steps(self):
+        return self._wizard_app_widget.steps
+    
+    def onStepChange(self, change):
+        if (step_index := change["new"]) is not None:
+            step = self.steps[step_index][1]
+            step.render()
+        return 
+
+    
