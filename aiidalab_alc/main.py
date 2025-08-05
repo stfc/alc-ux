@@ -6,9 +6,9 @@ from functools import partial
 
 
 from .resources import ComputationalResourcesWizardStep
-from .structure import StructureWizardStep
-from .workflow import MethodWizardStep
-from .utils import getAppDir, getChemShellParams, openLinkInNewTab
+from .structure import StructureWizardStep, StructureStepModel
+from .workflow import MethodWizardStep, ChemShellWorkflowModel
+from .utils import getAppDir, openLinkInNewTab
 
 
 class MainApp:
@@ -104,8 +104,13 @@ class MainAppView(ipw.VBox):
 
 class WizardWidget(ipw.VBox):
     def __init__(self, **kwargs):
-        self.structureStep = StructureWizardStep()
-        self.workflowStep = MethodWizardStep()
+
+        # Create the models to hold the state of each step 
+        self.structureModel = StructureStepModel() 
+        self.workflowModel = ChemShellWorkflowModel() 
+
+        self.structureStep = StructureWizardStep(self.structureModel)
+        self.workflowStep = MethodWizardStep(self.workflowModel)
         self.compResourceStep = ComputationalResourcesWizardStep()
 
         self._wizard_app_widget = awb.WizardAppWidget(

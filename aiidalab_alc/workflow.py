@@ -2,10 +2,26 @@ import ipywidgets as ipw
 import traitlets as tl 
 import aiidalab_widgets_base as awb 
 
+class ChemShellWorkflowModel(tl.HasTraits):
+
+    theoryOptions = tl.List(["QM", "MM", "QM/MM"], allow_none=False)
+    taskOptions = tl.List(["Single Point", "Geometry Optimisation"], allow_none=False)
+
+    theory = tl.Unicode("QM", allow_none=False)
+    task = tl.Unicode("Single Point", allow_none=False)
+
+    defaultGuide = """
+        <p>
+            ChemShell is a powerful tool for interfacing with both Quantum Mechanical and Molecular 
+            Mechanics codes to perform calculations. At its core you need to define a task and a theory 
+            (either QM, MM or hybrid QM/MM based). 
+        </p>
+    """
+
 class MethodWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
-    def __init__(self, **kwargs):
+    def __init__(self, model: ChemShellWorkflowModel, **kwargs):
         super().__init__(children=[], **kwargs)
-        self.model = ChemShellWorkflowModel() 
+        self.model = model
         self.rendered = False 
 
         self.header = ipw.HTML(
@@ -54,20 +70,4 @@ class MethodWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
         self.rendered = True 
         return 
     
-
-class ChemShellWorkflowModel(tl.HasTraits):
-
-    theoryOptions = tl.List(["QM", "MM", "QM/MM"], allow_none=False)
-    taskOptions = tl.List(["Single Point", "Geometry Optimisation"], allow_none=False)
-
-    theory = tl.Unicode("QM", allow_none=False)
-    task = tl.Unicode("Single Point", allow_none=False)
-
-    defaultGuide = """
-        <p>
-            ChemShell is a powerful tool for interfacing with both Quantum Mechanical and Molecular 
-            Mechanics codes to perform calculations. At its core you need to define a task and a theory 
-            (either QM, MM or hybrid QM/MM based). 
-        </p>
-    """
 
