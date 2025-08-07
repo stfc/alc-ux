@@ -5,25 +5,34 @@ import traitlets as tl
 from aiida.orm import StructureData
 
 class StructureStepModel(tl.HasTraits):
+    """
+    A model to define and store required information from the structure step in the app's configuration wizard. 
+    """
+
     structure = tl.Instance(StructureData, allow_none=True)
     structureFile = tl.Unicode("", allow_none=True)
 
     @property
     def hasStructure(self):
+        """ True if a StructureData object has been attached to the model, else False. """
         return self.structure is not None 
 
     @property
     def hasStructureFile(self):
+        """ True if a raw structure file object has been attached to the model, else False. """
         return self.structureFile != "" 
     
     @property 
     def isPeriodic(self):
+        """ True if the StructureData object that has been attached tot he model is a periodic structure. """
         if self.hasStructure:
             return any(self.structure.pbc)
         return False 
 
 
 class StructureWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
+    """ A step in a wizard based process widget which allows a user to configure a chemical structure to be used in their workflow. """
+
     def __init__(self, model: StructureStepModel, **kwargs):
         super().__init__(children=[], **kwargs)
         self.rendered = False 

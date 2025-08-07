@@ -13,6 +13,9 @@ from .utils import getAppDir, openLinkInNewTab
 
 class MainApp:
     def __init__(self, process=None):
+        """
+        Initialises the AiiDAlab app instance. 
+        """
         self.process = process 
         self.view = MainAppView()
         display(self.view)
@@ -21,6 +24,8 @@ class MainApp:
         return 
 
 class MainAppView(ipw.VBox):
+    """ The main app view """
+
     def __init__(self):
 
         logoImg = Image(
@@ -68,6 +73,8 @@ class MainAppView(ipw.VBox):
         )
 
 class WizardWidget(ipw.VBox):
+    """ A ipywidgets based widget to hold the main application construct wizard. """
+
     def __init__(self, **kwargs):
 
         # Create the models to hold the state of each step 
@@ -114,6 +121,8 @@ class WizardWidget(ipw.VBox):
 
     
 class QuickAccessButtons(ipw.HBox):
+    """ The quick access buttons present in the apps header. These are shown on all app pages. """
+
     def __init__(self, **kwargs):
         self.newCalcLink = ipw.Button(
             description="New Calculation", 
