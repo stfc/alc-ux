@@ -59,6 +59,12 @@ class StructureWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
                 awb.BasicStructureEditor(title="Basic Editor"),
                 awb.BasicCellEditor(title="Basic Cell Editor"),
             ],
+            node_class="StructureData",
+            storable=False,
+        )
+        ipw.dlink(
+            (self.structureManager, "structure_node"),
+            (self.model, "structure")
         )
 
         self.fileInputW = ipw.VBox()
@@ -71,7 +77,7 @@ class StructureWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
             value="",
             placeholder="",
             description="Structure File",
-            disabled=False,
+            disabled=True,
             layout={"width": "80%"},
         )
         self.fileInputW.children = [
@@ -111,4 +117,5 @@ class StructureWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
         return 
     
     def submitStructure(self, _):
+        self.structureManager.store_structure()
         return 
