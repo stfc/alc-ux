@@ -119,7 +119,7 @@ class ChemShellTaskWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
 
         self.sp_tab = ChemShellSinglePointTab()
         self.op_tab = ChemShellOptimisationTab()
-        self.tabs.children = [self.sp_tab, self.op_Tab]
+        self.tabs.children = [self.sp_tab, self.op_tab]
         self.tabs.selected_index = 0
         self.children = [self.tabs]
         return

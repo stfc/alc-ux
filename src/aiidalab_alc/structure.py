@@ -93,7 +93,7 @@ class StructureWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
             node_class="StructureData",
             storable=False,
         )
-        ipw.dlink((self.structureManager, "structure_node"), (self.model, "structure"))
+        ipw.dlink((self.structure_manager, "structure_node"), (self.model, "structure"))
 
         self.file_input_widget = ipw.VBox()
         self.file_input_btn = ipw.FileUpload(
