@@ -1,0 +1,3 @@
+# Coding Style
+
+This project adheres to the [pep8](https://peps.python.org/pep-0008/) style guide for python coding alongside numpy style docstring formatting. This should be checked before any code updates. A pre-commit configuration using the ruff linter tool is provided for convenience. More detailed information of how to check for style compliance can be found in the [developer guide](https://github.com/stfc/alc-ux). 
