@@ -1,137 +1,202 @@
-import ipywidgets as ipw 
-import traitlets as tl 
-import aiidalab_widgets_base as awb 
-from aiida.orm import Dict 
+"""Defines the model and view components for the workflow setup stage."""
 
+import aiidalab_widgets_base as awb
+import ipywidgets as ipw
+import traitlets as tl
 
 # from .utils import getChemShellParams
-# aiida_chemshell requires python>=3.10 but default docker images use python=3.9 
+# aiida_chemshell requires python>=3.10 but default docker images use python=3.9
 
 
 class ChemShellWorkflowModel(tl.HasTraits):
+    """The model for setting up a ChemShell workflow."""
 
-    theoryOptions = tl.List(["QM", "MM", "QM/MM"], allow_none=False)
-    taskOptions = tl.List(["Single Point", "Geometry Optimisation"], allow_none=False)
+    theory_options = tl.List(["QM", "MM", "QM/MM"], allow_none=False)
+    task_options = tl.List(["Single Point", "Geometry Optimisation"], allow_none=False)
 
     theory = tl.Unicode("QM", allow_none=False)
     task = tl.Unicode("Single Point", allow_none=False)
-    
-    taskParams = tl.Dict({}, allow_none=False)
 
-    defaultGuide = """
+    task_params = tl.Dict({}, allow_none=False)
+
+    default_guide = """
         <p>
-            ChemShell is a powerful tool for interfacing with both Quantum Mechanical and Molecular 
-            Mechanics codes to perform calculations. At its core you need to define a task and a theory 
-            (either QM, MM or hybrid QM/MM based). 
+            ChemShell is a powerful tool for interfacing with both
+            Quantum Mechanical and Molecular Mechanics codes to perform
+            calculations. At its core you need to define a task and a
+            theory (either QM, MM or hybrid QM/MM based).
         </p>
     """
 
+
 class MethodWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
+    """Wizard setup for the calculation workflow."""
+
     def __init__(self, model: ChemShellWorkflowModel, **kwargs):
+        """
+        MethodWizardStep constructor.
+
+        Parameters
+        ----------
+        model : ChemShellWorkflowModel
+            The model that defines the data related to this step in the setup wizard.
+        **kwargs :
+            Keyword arguments passed to the parent class's constructor.
+        """
         super().__init__(children=[], **kwargs)
         self.model = model
-        self.rendered = False 
+        self.rendered = False
 
-        return     
-    
+        return
+
     def render(self):
+        """Render the wizard contents if not already rendered."""
         if self.rendered:
-            return 
-        
+            return
+
         self.header = ipw.HTML(
             """
             <h3> ChemShell Workflow Setup </h3>
             """,
-            layout={"margin": "auto"}
+            layout={"margin": "auto"},
         )
         self.guide = ipw.HTML(
-            self.model.defaultGuide,
+            self.model.default_guide,
         )
-        
-        self.taskOptionsW = ChemShellTaskWizardStep(self.model)
-        self.theoryOptionsW = ChemShellTheoryWizardStep(self.model)
+
+        self.task_wizard = ChemShellTaskWizardStep(self.model)
+        self.theory_wizard = ChemShellTheoryWizardStep(self.model)
         self.steps = ipw.Accordion(
-            children=[self.taskOptionsW, self.theoryOptionsW], selected_index=None
+            children=[self.task_wizard, self.theory_wizard], selected_index=None
         )
         self.steps.set_title(0, "Step 2.1: Task Setup")
         self.steps.set_title(1, "Step 2.2: Theory Setup")
-        
-        submitBtn = ipw.Button(
+
+        submit_btn = ipw.Button(
             description="Submit Options",
             disbled=False,
             button_style="success",
             tooltip="Submit the workflow configuration",
             icon="check",
-            layout={"margin": "auto", "width": "80%"}
+            layout={"margin": "auto", "width": "80%"},
         )
-        submitBtn.on_click(self.submitOptions)
+        submit_btn.on_click(self.submit_options)
 
-        self.children = [
-            self.header,
-            self.guide,
-            self.steps,
-            submitBtn
-        ]
-        self.rendered = True 
-        return 
-    
-    def submitOptions(self, _):
-        self.model.task = self.model.taskOptions[self.taskOptionsW.tabs.selected_index]
-        return 
-    
+        self.children = [self.header, self.guide, self.steps, submit_btn]
+        self.rendered = True
+        return
+
+    def submit_options(self, _):
+        """Store the ChemShell parameters in the ChemShell workflow model."""
+        self.model.task = self.model.task_options[self.task_wizard.tabs.selected_index]
+        return
+
 
 class ChemShellTaskWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
+    """Wizard view to setup a ChemShell workflow."""
+
     def __init__(self, model: ChemShellWorkflowModel, **kwargs):
+        """
+        ChemShellTaskWizardStep constructor.
+
+        Parameters
+        ----------
+        model : ChemShellWorkflowModel
+            The model that defines the data related to this step in the setup wizard.
+        **kwargs :
+            Keyword arguments passed to the parent class's constructor.
+        """
         super().__init__(children=[], **kwargs)
-        self.model = model 
-        self.rendered = False 
+        self.model = model
+        self.rendered = False
 
         self.tabs = ipw.Tab()
-        self.spTab = None 
-        self.opTab = None 
+        self.sp_tab = None
+        self.op_tab = None
 
         self.tabs.set_title(0, "Single Point")
         self.tabs.set_title(1, "Geometry Optimisation")
 
-        self.spTab = ChemShellSinglePointTab()
-        self.opTab = ChemShellOptimisationTab()
-        self.tabs.children = [
-            self.spTab, self.opTab
-        ]
-        self.tabs.selected_index = 0 
+        self.sp_tab = ChemShellSinglePointTab()
+        self.op_tab = ChemShellOptimisationTab()
+        self.tabs.children = [self.sp_tab, self.op_Tab]
+        self.tabs.selected_index = 0
         self.children = [self.tabs]
-        return 
-    
-    # def render(self):
-    #     if self.rendered:
-    #         return 
-    #     self.rendered = True
-        
-    #     return  
+        return
 
-        
 
 class ChemShellSinglePointTab(ipw.VBox):
+    """Widget to assign ChemShell's single point task's parameters."""
+
     def __init__(self, **kwargs):
+        """
+        ChemShellSinglePointTab constructor.
+
+        Parameters
+        ----------
+        **kwargs :
+            Keyword arguments passed to the parent class's constructor.
+        """
         # opts = getChemShellParams("sp")
         opts = ("gradients", "hessian")
         self.widgets = {}
         for opt in opts:
-            self.widgets[opt] = ipw.Checkbox(value=False, description=opt.capitalize(), disabled=False)
+            self.widgets[opt] = ipw.Checkbox(
+                value=False, description=opt.capitalize(), disabled=False
+            )
         super().__init__(children=list(self.widgets.values()), **kwargs)
-        return 
+        return
 
 
 class ChemShellOptimisationTab(ipw.VBox):
+    """Widget to assign ChemShell's optimisation task's parameters."""
+
     def __init__(self, **kwargs):
-        opts = ("maxcycle", "maxene", "coordinates", "algorithm", "trust_radius", "maxstep", "tolerance", "neb", "nimages", "nebk", "dimer", "delta", "tsrelative")
-        self.widgets = {} 
+        """
+        ChemShellOptimisationTab constructor.
+
+        Parameters
+        ----------
+        **kwargs :
+            Keyword arguments passed to the parent class's constructor.
+        """
+        opts = (
+            "maxcycle",
+            "maxene",
+            "coordinates",
+            "algorithm",
+            "trust_radius",
+            "maxstep",
+            "tolerance",
+            "neb",
+            "nimages",
+            "nebk",
+            "dimer",
+            "delta",
+            "tsrelative",
+        )
+        self.widgets = {}
         for opt in opts:
-            self.widgets[opt] = ipw.Text(value="", description=opt.capitalize(), disabled=False)
+            self.widgets[opt] = ipw.Text(
+                value="", description=opt.capitalize(), disabled=False
+            )
         super().__init__(children=list(self.widgets.values()), **kwargs)
-        return 
-    
+        return
+
+
 class ChemShellTheoryWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
+    """Wizard step to control the theory parameters for a ChemShell workflow."""
+
     def __init__(self, model, **kwargs):
+        """
+        ChemShellTheoryWizardStep constructor.
+
+        Parameters
+        ----------
+        model : ChemShellWorkflowModel
+            The model that defines the data related to this step in the setup wizard.
+        **kwargs :
+            Keyword arguments passed to the parent class's constructor.
+        """
         super().__init__(children=[], **kwargs)
-        return 
+        return

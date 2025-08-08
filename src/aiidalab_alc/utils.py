@@ -1,59 +1,80 @@
-import pathlib 
+"""Contains utility functions used throughout the python package."""
+
+import pathlib
+
+from IPython.display import Javascript, display
 
 
-def getPyAppDir() -> pathlib.Path:
+def get_py_app_dir() -> pathlib.Path:
     """
-    Returns the absolute path for the AiiDAlab ALC app python package.
+    Return the absolute path for the AiiDAlab ALC app python package.
+
+    Returns
+    -------
+    pathlib.Path
+        The path to the root python package directory.
     """
     return pathlib.Path(__file__).parent.resolve()
 
-def getAppDir() -> pathlib.Path:
+
+def get_app_dir() -> pathlib.Path:
     """
-    Returns the absolute path for the root directory of this project where the jupyter notebooks are contained.
+    Return the absolute path for the root directory of this project.
+
+    Return the path to the root of the AiiDAlab application where
+    the jupyter notebooks are contained to enable navigation between
+    notebooks.
+
+    Returns
+    -------
+    pathlib.Path
+        The path to the root AiiDAlab application directory.
     """
-    return getPyAppDir() / "../.." 
+    return get_py_app_dir() / "../.."
 
 
-def getChemShellParams(key: str) -> tuple: 
+def get_chem_shell_params(key: str) -> tuple:
     """
-    Returns the ChemShell input dictionary keys for various input options defined by the aiida-chemshell plugin. 
+    Return the ChemShell input dictionary keys defined by the aiida-chemshell plugin.
 
     Parameters
     ----------
-    key:    str 
-        The input field to be queried ("sp": "Single Point", "op": "Geometry Optimisation", "qm": "Quantum Mechanics", "mm": "Molecular Mechanics")
+    key :   str
+        The input field to be queried ("sp": "Single Point", "op":
+        "Geometry Optimisation", "qm": "Quantum Mechanics", "mm":
+        "Molecular Mechanics")
 
-    Returns 
+    Returns
     -------
-    params: tuple 
-        A list of the input dictionary keys for the requested input field as defined by the aiida-chemshell plugin. 
+    tuple
+        A list of the input dictionary keys for the requested input field
+        as defined by the aiida-chemshell plugin.
     """
     try:
-        from aiida_chemshell.calculations import ChemShellCalculation 
+        from aiida_chemshell.calculations import ChemShellCalculation
     except ImportError:
-        raise ImportError
-        return tuple()
+        return []
     else:
-        if   (key == "sp"):
+        if key == "sp":
             return ChemShellCalculation.get_valid_calculation_parameters()
-        elif (key == "op"):
+        if key == "op":
             return ChemShellCalculation.get_valid_optimisation_parameters()
-        elif (key == "qm"):
+        if key == "qm":
             return ChemShellCalculation.get_valid_QM_parameters().keys()
-        elif (key == "mm"):
+        if key == "mm":
             return ChemShellCalculation.get_valid_MM_parameters().keys()
-    return tuple()
+    return []
 
-def openLinkInNewTab(path: str, _ = None) -> None:
+
+def open_link_in_new_tab(path: str, _=None) -> None:
     """
-    Opens a given link in a new browser tab. 
+    Open a given link in a new browser tab.
 
-    Parameters 
+    Parameters
     ----------
-    path:   str 
+    path :  str
         The link to be opened.
     """
-    jsCode = f"window.open('{path}', '_blank');"
-    from IPython.display import Javascript, display 
-    display(Javascript(jsCode))
-    return 
+    js_code = f"window.open('{path}', '_blank');"
+    display(Javascript(js_code))
+    return
