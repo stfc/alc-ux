@@ -1,0 +1,14 @@
+cff-version: 1.2.0 
+title: "AiiDAlab ALC App"
+massage: "If you use this software, please cite it as below."
+type: software 
+authors:
+  - family-names: Speake 
+    given-names: Benjamin 
+    orcid: "https://orcid.org/0000-0002-5690-9470"
+identifiers:
+  - type: doi 
+    value: tbc 
+repository-code: "https://github.com/stfc/alc-ux"
+abstract: "AiiDAlab workflow UI for ALC scientific research"
+license: GPL-3.0 
