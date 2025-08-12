@@ -150,7 +150,9 @@ class QuickAccessButtons(ipw.HBox):
             tooltip="Start a new calculation",
             icon="plus",
         )
-        self.new_calc_link.on_click(partial(open_link_in_new_tab, "main.ipynb"))
+        self.new_calc_link.on_click(
+            partial(open_link_in_new_tab, "../alc-ux/main.ipynb")
+        )
 
         self.history_link = ipw.Button(
             description="History",
@@ -159,7 +161,9 @@ class QuickAccessButtons(ipw.HBox):
             tooltip="View Calculation History",
             icon="history",
         )
-        self.history_link.on_click(partial(open_link_in_new_tab, "history.ipynb"))
+        self.history_link.on_click(
+            partial(open_link_in_new_tab, "../alc-ux/history.ipynb")
+        )
 
         self.resource_setup_link = ipw.Button(
             description="Setup Resources",

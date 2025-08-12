@@ -1,6 +1,7 @@
 """Contains utility functions used throughout the python package."""
 
 import pathlib
+from os import getenv
 
 from IPython.display import Javascript, display
 
@@ -23,14 +24,18 @@ def get_app_dir() -> pathlib.Path:
 
     Return the path to the root of the AiiDAlab application where
     the jupyter notebooks are contained to enable navigation between
-    notebooks.
+    notebooks. This assumes that the environment variable AIIDALAB_APPS
+    has been configured to point at the directory containing the app
+    source code.
 
     Returns
     -------
     pathlib.Path
         The path to the root AiiDAlab application directory.
     """
-    return get_py_app_dir() / "../.."
+    return (
+        pathlib.Path(getenv("AIIDALAB_APPS", getenv("HOME", "") + "/apps/")) / "alc-ux/"
+    )
 
 
 def get_chem_shell_params(key: str) -> tuple:
