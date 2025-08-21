@@ -1,0 +1,58 @@
+name: ci-testing 
+
+on: [push, pull_request]
+
+jobs:
+
+  pytest:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - name: Checkout Repository 
+        uses: actions/checkout@v4 
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5 
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install the package & requirements 
+        uses: |
+          python -m pip install --upgrade pip
+          pip install .[dev]
+
+      - name: Run the test suite   
+        uses: pytest --cov=aiida_alc --cov-report xml:coverage.xml 
+
+      - name: Report coverage 
+        uses: orgoro/coverage@v3.2 
+        continue-on-error: true
+        with:
+          coverageFile: coverage.xml
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  style-check:
+    runs-on: ubuntu-latest 
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4 
+
+      - name: Setup up Python 
+        uses: actions/setup-python@v5 
+        with:
+          python-version: "3.12"
+
+      - name: Install ruff 
+        uses: pip install ruff 
+
+      - name: Run the linter 
+        uses: ruff check 
+
+      - name: Run the format checker 
+        uses: ruff format --check 
+
+      

@@ -1,0 +1,62 @@
+name: ci-release 
+
+on:
+  push:
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+*
+
+jobs:
+  publish-pypi:
+    runs-on: ubuntu-latest 
+    if: github.repository == 'stfc/alc-ux' && startsWith(github.ref, 'refs/tags/v')
+    environment:
+      name: release 
+    permissions:
+      id-token: write 
+      contents: write 
+
+    steps:
+      - name: Checkout Repository 
+        uses: actions/checkout@v4 
+
+      - name: Set up Python 
+        uses: actions/setup-python@v5 
+        with:
+          python-version: "3.12"
+
+      - name: Install build & twine 
+        uses: | 
+          python -m pip install --upgrade pip 
+          pip install build twine
+
+      - name: Build the package 
+        uses: python -m build . 
+
+      - name: Install the package to get the version 
+        uses: pip install . 
+
+      - name: Extract the package version 
+        uses: | 
+          echo "VERSION=$(python -c '
+          from aiida_alc import __version__
+          print(__version__)
+          ')" >> $GITHUB_ENV
+      
+      - name: Compare package version to git tag 
+        if: ${{ ! contains(github.ref, env.VERSION) }}
+        uses: | 
+          echo "Git tag does not match package version."
+          exit 1 
+
+      - name: Create Release 
+        uses: ncipollo/release-action@v1 
+        with:
+          artifacts: "dist/*"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: false 
+          prerelease: steps.check-prerelease.output.prerelease == 'true'
+          skipIfReleaseExists: true 
+          generateReleaseNotes: true 
+
+      - name: Publish to PyPI 
+        run: twine upload dist/* 

@@ -1,0 +1,49 @@
+name: ci-documentation 
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read 
+  pages: write 
+  id-token: write 
+
+concurrency: 
+  group: "pages"
+  cancel-in-progress: false 
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15 
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4 
+
+      - name: Setup up Python 
+        uses: actions/setup-python@v5 
+        with:
+          python-version: "3.12"
+
+      - name: Install Sphinx 
+        uses: | 
+          python -m pip install --upgrade pip 
+          pip install sphinx sphinx-toolbox piccolo-theme 
+          
+      - name: Build the documentation 
+        uses: sphinx-build -b html docs/source/ docs/build/html 
+
+      - name: Setup Pages 
+        uses: actions/configure-pages@v5 
+
+      - name: Upload Docs 
+        uses: actions/upload-pages-artifacts@v3 
+        with: 
+          path: ./docs/build/html
+
+      - name: Deploy to GitHub Pages 
+        id: deployment 
+        uses: actions/deploy-pages@v4 
