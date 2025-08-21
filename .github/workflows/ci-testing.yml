@@ -38,6 +38,7 @@ jobs:
         uses: coverallsapp/github-action@v2 
         with: 
           file: coverage.xml 
+          base-path: aiidalab_alc 
 
   style-check:
     runs-on: ubuntu-latest 
