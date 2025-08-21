@@ -1,12 +1,19 @@
-![logo][https://raw.githubusercontent.com/stfc/alc-ux/main/images/alc-100.png]
+<div align="center">
+    <img src="images/alc-100.png" alt="ALC Logo" style="width: 40%">
+</div>
 
 # AiiDAlab ALC Application 
 
-[![PyPI Version][badge]][link]
-[![Pipeline Status][https://github.com/stfc/alc-ux/actions/workflows/ci-testing.yml/badge.svg?branch=main]][https://github.com/stfc/alc-ux/actions]
-[![Coverage Status][cov-badge]][link]
-[![Docs status][docs-badge]][https://stfc.github.io/alc-ux/]
-[![DOI][badge]][link]
+![Release](https://img.shields.io/badge/Release-none-red)
+[![PyPI Version](https://img.shields.io/badge/PyPI-none-red)](https://pypi.org/)
+[![Pipeline Status](https://github.com/stfc/alc-ux/actions/workflows/ci-testing.yml/badge.svg?branch=main)](https://github.com/stfc/alc-ux/actions)
+![Coverage Status](https://img.shields.io/badge/Coverage-none-red)
+[![Docs status](https://img.shields.io/badge/docs-sphinx-blue)](https://stfc.github.io/alc-ux/)
+[![DOI](badge)](https://zenodo.org/)
+
+# My Awesome Project
+
+This is a description of my project.
 
 This is an AiiDAlab application for scientific workflows maintained by the [Ada Lovelace Center](https://adalovelacecentre.ac.uk/) (ALC). 
 The app is still in early development stage and any input/contributions are welcome. 
