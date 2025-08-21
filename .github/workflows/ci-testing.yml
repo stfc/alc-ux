@@ -26,7 +26,14 @@ jobs:
           pip install .[dev]
 
       - name: Run the test suite   
-        run: pytest --cov=aiida_alc --cov-report xml:coverage.xml 
+        run: pytest --cov=aiidalab_alc --cov-report xml:coverage.xml 
+
+      - name: Upload test coverage report 
+        uses: actions/upload-artifact@v4 
+        with:
+          name: coverage-report
+          path: coverage.xml 
+          retention-days: 30 
 
       - name: Report coverage 
         uses: orgoro/coverage@v3.2 
