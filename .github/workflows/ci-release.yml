@@ -25,18 +25,18 @@ jobs:
           python-version: "3.12"
 
       - name: Install build & twine 
-        uses: | 
+        run: | 
           python -m pip install --upgrade pip 
           pip install build twine
 
       - name: Build the package 
-        uses: python -m build . 
+        run: python -m build . 
 
       - name: Install the package to get the version 
-        uses: pip install . 
+        run: pip install . 
 
       - name: Extract the package version 
-        uses: | 
+        run: | 
           echo "VERSION=$(python -c '
           from aiida_alc import __version__
           print(__version__)
@@ -44,7 +44,7 @@ jobs:
       
       - name: Compare package version to git tag 
         if: ${{ ! contains(github.ref, env.VERSION) }}
-        uses: | 
+        run: | 
           echo "Git tag does not match package version."
           exit 1 
 

@@ -21,12 +21,12 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install the package & requirements 
-        uses: |
+        run: |
           python -m pip install --upgrade pip
           pip install .[dev]
 
       - name: Run the test suite   
-        uses: pytest --cov=aiida_alc --cov-report xml:coverage.xml 
+        run: pytest --cov=aiida_alc --cov-report xml:coverage.xml 
 
       - name: Report coverage 
         uses: orgoro/coverage@v3.2 
@@ -47,12 +47,12 @@ jobs:
           python-version: "3.12"
 
       - name: Install ruff 
-        uses: pip install ruff 
+        run: pip install ruff 
 
       - name: Run the linter 
-        uses: ruff check 
+        run: ruff check 
 
       - name: Run the format checker 
-        uses: ruff format --check 
+        run: ruff format --check 
 
       
