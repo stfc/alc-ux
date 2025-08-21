@@ -25,22 +25,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install .[dev]
 
-      - name: Run the test suite   
-        run: pytest --cov=aiidalab_alc --cov-report xml:coverage.xml 
-
-      - name: Upload test coverage report 
-        uses: actions/upload-artifact@v4 
-        with:
-          name: coverage-report
-          path: coverage.xml 
-          retention-days: 30 
-
-      - name: Report coverage 
-        uses: orgoro/coverage@v3.2 
-        continue-on-error: true
-        with:
-          coverageFile: coverage.xml
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run the test suite \w coverage 
+        if: ${{ matrix.python-version }} == "3.11"
+        run: pytest --cov=aiidalab_alc --cov-report xml:coverage.xml
+      
+      - name: Run the test suite without coverage 
+        if: ${{ matrix.python-version }} != "3.11" 
+        run: pytest 
 
   style-check:
     runs-on: ubuntu-latest 
