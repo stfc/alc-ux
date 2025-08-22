@@ -26,15 +26,15 @@ jobs:
           pip install .[dev]
 
       - name: Run the test suite \w coverage 
-        if: ${{ matrix.python-version }} == "3.11"
+        if: contains(matrix.python-version, '3.12')
         run: pytest --cov=aiidalab_alc --cov-report xml:coverage.xml
       
       - name: Run the test suite without coverage 
-        if: ${{ matrix.python-version }} != "3.11" 
+        if: ${{ matrix.python-version }} != '3.12'
         run: pytest 
 
       - name: Report coverage to Coveralls 
-        if: ${{ matrix.python-version }} == "3.11"
+        if: contains(matrix.python-version, '3.12')
         uses: coverallsapp/github-action@v2 
         with: 
           file: coverage.xml 
