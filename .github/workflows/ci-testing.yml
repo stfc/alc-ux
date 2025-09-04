@@ -30,7 +30,7 @@ jobs:
         run: pytest --cov=aiidalab_alc --cov-report xml:coverage.xml
       
       - name: Run the test suite without coverage 
-        if: ${{ matrix.python-version }} != '3.12'
+        if:  ! contains(matrix.python-version, '3.12')
         run: pytest 
 
       - name: Report coverage to Coveralls 
