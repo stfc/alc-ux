@@ -9,7 +9,7 @@
 ![Release](https://img.shields.io/badge/Release-none-red)
 [![PyPI Version](https://img.shields.io/badge/PyPI-none-red)](https://pypi.org/)
 [![Pipeline Status](https://github.com/stfc/alc-ux/actions/workflows/ci-testing.yml/badge.svg?branch=main)](https://github.com/stfc/alc-ux/actions)
-![Coverage Status](https://img.shields.io/badge/Coverage-none-red)
+[![Coverage Status]( https://coveralls.io/repos/github/stfc/alc-ux/badge.svg?branch=main)](https://coveralls.io/github/stfc/alc-ux?branch=main)
 [![Docs status](https://github.com/stfc/alc-ux/actions/workflows/ci-docs.yml/badge.svg?branch=main)](https://stfc.github.io/alc-ux/)
 [![DOI](badge)](https://zenodo.org/)
 

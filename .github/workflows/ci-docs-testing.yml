@@ -1,7 +1,7 @@
-name: ci-deploy-docs 
+name: ci-test-docs-build
 
 on:
-  push:
+  pull_request:
     branches: [ main ]
 
 permissions:
@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: false 
 
 jobs:
-  deploy-docs:
+  build-docs:
     runs-on: ubuntu-latest
     timeout-minutes: 15 
     steps:
@@ -33,15 +33,3 @@ jobs:
           
       - name: Build the documentation 
         run: sphinx-build -b html docs/source/ docs/build/html 
-
-      - name: Setup Pages 
-        uses: actions/configure-pages@v5 
-
-      - name: Upload Docs 
-        uses: actions/upload-pages-artifact@v3 
-        with: 
-          path: ./docs/build/html
-
-      - name: Deploy to GitHub Pages 
-        id: deployment 
-        uses: actions/deploy-pages@v4 
