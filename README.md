@@ -1,5 +1,7 @@
 <div align="center">
-    <img src="images/alc-100.png" alt="ALC Logo" style="width: 40%">
+    <a href="https://adalovelacecentre.ac.uk/">
+        <img src="images/alc.svg" alt="ALC Logo" style="width: 60%">
+    </a>
 </div>
 
 # AiiDAlab ALC Application 
@@ -11,11 +13,8 @@
 [![Docs status](https://github.com/stfc/alc-ux/actions/workflows/ci-docs.yml/badge.svg?branch=main)](https://stfc.github.io/alc-ux/)
 [![DOI](badge)](https://zenodo.org/)
 
-# My Awesome Project
 
-This is a description of my project.
-
-This is an AiiDAlab application for scientific workflows maintained by the [Ada Lovelace Center](https://adalovelacecentre.ac.uk/) (ALC). 
+This is an AiiDAlab application plugin for scientific workflows maintained by the [Ada Lovelace Center](https://adalovelacecentre.ac.uk/) (ALC). 
 The app is still in early development stage and any input/contributions are welcome. 
 
 
