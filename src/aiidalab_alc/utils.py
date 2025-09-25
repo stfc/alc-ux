@@ -1,6 +1,7 @@
 """Contains utility functions used throughout the python package."""
 
 import pathlib
+from importlib import import_module
 from os import getenv
 
 from IPython.display import Javascript, display
@@ -83,3 +84,22 @@ def open_link_in_new_tab(path: str, _=None) -> None:
     js_code = f"window.open('{path}', '_blank');"
     display(Javascript(js_code))
     return
+
+
+def test_aiida_chemsh_import() -> bool:
+    """
+    Test if the aiida-chemshell plugin is installed.
+
+    Returns
+    -------
+    bool
+        True if the aiida-chemshell plugin is installed, False otherwise.
+    """
+    try:
+        import_module("aiida_chemshell")
+    except ImportError:
+        return False
+    except Exception as e:
+        raise e
+    else:
+        return True
