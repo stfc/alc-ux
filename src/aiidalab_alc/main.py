@@ -40,7 +40,7 @@ class MainAppModel(tl.HasTraits):
         self.workflowModel = ChemShellWorkflowModel()
         self.resourceModel = ComputationalResourcesModel()
 
-        self.resourceModel.observe(self._submit_model, "submit")
+        self.resourceModel.observe(self._submit_model, "submitted")
 
         self.process = None
         return

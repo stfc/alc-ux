@@ -16,6 +16,7 @@ class StructureStepModel(tl.HasTraits):
 
     structure = tl.Instance(StructureData, allow_none=True)
     structure_file = tl.Unicode("", allow_none=True)
+    submitted = tl.Bool(False).tag(sync=True)
 
     @property
     def has_structure(self) -> bool:
@@ -131,7 +132,7 @@ class StructureWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
             button_style="success",
             tooltip="Submit the structure to the workflow",
             icon="check",
-            layout={"margin": "auto", "width": "80%"},
+            layout={"margin": "auto", "width": "60%"},
         )
         submit_btn.on_click(self.submit_structure)
 

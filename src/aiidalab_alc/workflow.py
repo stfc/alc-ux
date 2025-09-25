@@ -16,6 +16,7 @@ class ChemShellWorkflowModel(tl.HasTraits):
     qm_region = tl.List([], allow_none=False)
     basis_quality = tl.Bool(True, allow_none=False)
     force_field = tl.Instance(SinglefileData, allow_none=False)
+    submitted = tl.Bool(False).tag(sync=True)
 
     default_guide = ""
 
