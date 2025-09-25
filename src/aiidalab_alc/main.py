@@ -5,9 +5,13 @@ from functools import partial
 
 import aiidalab_widgets_base as awb
 import ipywidgets as ipw
+import traitlets as tl
 from IPython.display import Image, display
 
-from aiidalab_alc.resources import ComputationalResourcesWizardStep
+from aiidalab_alc.resources import (
+    ComputationalResourcesModel,
+    ComputationalResourcesWizardStep,
+)
 from aiidalab_alc.structure import StructureStepModel, StructureWizardStep
 from aiidalab_alc.utils import get_app_dir, open_link_in_new_tab
 from aiidalab_alc.workflow import ChemShellWorkflowModel, MethodWizardStep
@@ -18,17 +22,39 @@ class MainApp:
 
     def __init__(self):
         """MainApp constructor."""
-        self.view = MainAppView()
+        self.model = MainAppModel()
+        self.view = MainAppView(self.model)
         display(self.view)
 
     # def load(self) -> None:
     #     return
 
 
+class MainAppModel(tl.HasTraits):
+    """The main AiiDAlab application MVC model."""
+
+    def __init__(self):
+        """MainAppModel constructor."""
+        super().__init__()
+        self.structureModel = StructureStepModel()
+        self.workflowModel = ChemShellWorkflowModel()
+        self.resourceModel = ComputationalResourcesModel()
+
+        self.resourceModel.observe(self._submit_model, "submit")
+
+        self.process = None
+        return
+
+    def _submit_model(self, _) -> None:
+        """Handle the submission of the AiiDA process."""
+        print("Submit model called")
+        return
+
+
 class MainAppView(ipw.VBox):
     """The main app view."""
 
-    def __init__(self):
+    def __init__(self, model: MainAppModel, **kwargs):
         """MainAppView constructor."""
         logo_img = Image(
             filename=get_app_dir() / "images/alc-100.png",
@@ -65,18 +91,17 @@ class MainAppView(ipw.VBox):
             layout={"align-content": "right"},
         )
 
-        self.main = WizardWidget()
+        self.main = WizardWidget(model)
 
         super().__init__(
-            layout={},
-            children=[header, nav_btns, self.main, footer],
+            layout={}, children=[header, nav_btns, self.main, footer], **kwargs
         )
 
 
 class WizardWidget(ipw.VBox):
     """An ipywidgets based widget to hold the main application construct wizard."""
 
-    def __init__(self, **kwargs):
+    def __init__(self, model: MainAppModel, **kwargs):
         """
         WizardWidget constructor.
 
@@ -85,13 +110,9 @@ class WizardWidget(ipw.VBox):
         **kwargs :
             Keyword arguments passed to the `ipywidgets.VBox.__init__()`.
         """
-        # Create the models to hold the state of each step
-        self.structureModel = StructureStepModel()
-        self.workflowModel = ChemShellWorkflowModel()
-
-        self.structureStep = StructureWizardStep(self.structureModel)
-        self.workflowStep = MethodWizardStep(self.workflowModel)
-        self.compResourceStep = ComputationalResourcesWizardStep()
+        self.structureStep = StructureWizardStep(model.structureModel)
+        self.workflowStep = MethodWizardStep(model.workflowModel)
+        self.compResourceStep = ComputationalResourcesWizardStep(model.resourceModel)
 
         self._wizard_app_widget = awb.WizardAppWidget(
             steps=[
