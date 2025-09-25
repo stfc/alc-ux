@@ -1,20 +1,19 @@
 """Defines the main AiiDAlab application page."""
 
 from datetime import datetime
-from functools import partial
 
 import aiidalab_widgets_base as awb
 import ipywidgets as ipw
-import traitlets as tl
 from IPython.display import Image, display
 
+from aiidalab_alc.navigation import QuickAccessButtons
+from aiidalab_alc.process import MainAppModel
 from aiidalab_alc.resources import (
-    ComputationalResourcesModel,
     ComputationalResourcesWizardStep,
 )
-from aiidalab_alc.structure import StructureStepModel, StructureWizardStep
-from aiidalab_alc.utils import get_app_dir, open_link_in_new_tab
-from aiidalab_alc.workflow import ChemShellWorkflowModel, MethodWizardStep
+from aiidalab_alc.structure import StructureWizardStep
+from aiidalab_alc.utils import get_app_dir
+from aiidalab_alc.workflow import MethodWizardStep
 
 
 class MainApp:
@@ -28,27 +27,6 @@ class MainApp:
 
     # def load(self) -> None:
     #     return
-
-
-class MainAppModel(tl.HasTraits):
-    """The main AiiDAlab application MVC model."""
-
-    def __init__(self):
-        """MainAppModel constructor."""
-        super().__init__()
-        self.structureModel = StructureStepModel()
-        self.workflowModel = ChemShellWorkflowModel()
-        self.resourceModel = ComputationalResourcesModel()
-
-        self.resourceModel.observe(self._submit_model, "submitted")
-
-        self.process = None
-        return
-
-    def _submit_model(self, _) -> None:
-        """Handle the submission of the AiiDA process."""
-        print("Submit model called")
-        return
 
 
 class MainAppView(ipw.VBox):
@@ -149,71 +127,4 @@ class WizardWidget(ipw.VBox):
         if (step_index := change["new"]) is not None:
             step = self.steps[step_index][1]
             step.render()
-        return
-
-
-class QuickAccessButtons(ipw.HBox):
-    """Quick access buttons present in the apps header and start banner."""
-
-    def __init__(self, **kwargs):
-        """
-        QuickAccessButtons constructor.
-
-        Parameters
-        ----------
-        **kwargs :
-            Keyword arguments passed to the `ipywidgets.HBox.__init__()`.
-        """
-        self.new_calc_link = ipw.Button(
-            description="New Calculation",
-            disabled=False,
-            button_style="success",
-            tooltip="Start a new calculation",
-            icon="plus",
-        )
-        self.new_calc_link.on_click(
-            partial(open_link_in_new_tab, "../alc-ux/main.ipynb")
-        )
-
-        self.history_link = ipw.Button(
-            description="History",
-            disabled=False,
-            button_style="primary",
-            tooltip="View Calculation History",
-            icon="history",
-        )
-        self.history_link.on_click(
-            partial(open_link_in_new_tab, "../alc-ux/history.ipynb")
-        )
-
-        self.resource_setup_link = ipw.Button(
-            description="Setup Resources",
-            disabled=False,
-            button_style="primary",
-            tooltip="Configure Computational Resources",
-            icon="cogs",
-            # on_click=partial(onLinkClickt get_app_dir() / "../home/code_setup.ipynb"),
-        )
-        self.resource_setup_link.on_click(
-            partial(open_link_in_new_tab, "../home/code_setup.ipynb")
-        )
-
-        self.docs_link = ipw.Button(
-            description="Documentation",
-            disabled=False,
-            button_style="info",
-            tooltip="Open Documentation",
-            icon="book",
-        )
-        self.docs_link.on_click(
-            partial(open_link_in_new_tab, "https://github.com/stfc/alc-ux")
-        )
-
-        children = [
-            self.new_calc_link,
-            self.history_link,
-            self.resource_setup_link,
-            self.docs_link,
-        ]
-        super().__init__(children=children, layout={"margin": "auto"}, **kwargs)
         return
