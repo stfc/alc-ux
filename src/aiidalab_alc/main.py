@@ -117,8 +117,8 @@ class WizardWidget(ipw.VBox):
         self._wizard_app_widget = awb.WizardAppWidget(
             steps=[
                 ("Select Structure", self.structureStep),
-                ("Select Workflow", self.workflowStep),
-                ("Configure Resources", self.compResourceStep),
+                ("Configure Workflow", self.workflowStep),
+                ("Configure Computational Resources", self.compResourceStep),
             ]
         )
 
