@@ -146,5 +146,7 @@ class StructureWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
 
     def submit_structure(self, _):
         """Store the current structure in the AiiDA database."""
-        self.structureManager.store_structure()
+        self.structure_manager.store_structure()
+        if self.model.has_structure:
+            self.model.submitted = True
         return
