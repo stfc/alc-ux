@@ -197,7 +197,7 @@ class ResourceSetupBox(ipw.VBox):
         qb = QueryBuilder()
         qb.append(Code, project=["label", "id"])
         codes = qb.all()
-        code_labels = [f"{label} ({id})" for label, id in codes]
+        code_labels = [f"{label}" for label, id in codes]
         self.code.options = code_labels
         if code_labels:
             self.code.value = code_labels[0]
