@@ -65,6 +65,9 @@ class FileUploadWidget(HBox):
         """Get the uploaded file as an AiiDA SinglefileData object."""
         if self.file is not None:
             return SinglefileData(
-                file=self.get_file_contents(), filename=self.filename()
+                file=self.get_file_contents(),
+                filename=self.filename(),
+                label=self.filename(),
+                description=self.file_handle.description,
             )
         return None
