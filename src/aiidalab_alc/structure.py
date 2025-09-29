@@ -3,7 +3,9 @@
 import aiidalab_widgets_base as awb
 import ipywidgets as ipw
 import traitlets as tl
-from aiida.orm import StructureData
+from aiida.orm import SinglefileData, StructureData
+
+from aiidalab_alc.file_handling import FileUploadWidget
 
 
 class StructureStepModel(tl.HasTraits):
@@ -15,7 +17,7 @@ class StructureStepModel(tl.HasTraits):
     """
 
     structure = tl.Instance(StructureData, allow_none=True)
-    structure_file = tl.Unicode("", allow_none=True)
+    structure_file = tl.Instance(SinglefileData, allow_none=True)
     submitted = tl.Bool(False).tag(sync=True)
 
     @property
@@ -26,7 +28,7 @@ class StructureStepModel(tl.HasTraits):
     @property
     def has_file(self) -> bool:
         """True if a raw structure file object has been attached to the model."""
-        return self.structure_file != ""
+        return self.structure_file is not None
 
     @property
     def is_periodic(self) -> bool:
@@ -65,8 +67,8 @@ class StructureWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
                     Load in a structure to start the workflow. The
                     structure can either be in AiiDA StructureData
                     format, or as a raw input file if the
-                    file format is not directly supported by AiiDA
-                    (e.g. ChemShell .pun files).
+                    file format is not directly (or fully) supported by AiiDA
+                    (e.g. ChemShell .pun files or partial charges from .cjson files).
                 </p>
             """
         )
@@ -97,21 +99,9 @@ class StructureWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
         ipw.dlink((self.structure_manager, "structure_node"), (self.model, "structure"))
 
         self.file_input_widget = ipw.VBox()
-        self.file_input_btn = ipw.FileUpload(
-            accept="",
-            multiple=False,
-            description="Upload Structure File",
-        )
-        self.file_handle = ipw.Text(
-            value="",
-            placeholder="",
-            description="Structure File",
-            disabled=True,
-            layout={"width": "80%"},
-        )
+        self.raw_file = FileUploadWidget(description="Structure file: ")
         self.file_input_widget.children = [
-            self.file_handle,
-            self.file_input_btn,
+            self.raw_file,
         ]
 
         self.tabs.children = [
@@ -146,7 +136,10 @@ class StructureWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
 
     def submit_structure(self, _):
         """Store the current structure in the AiiDA database."""
-        self.structure_manager.store_structure()
-        if self.model.has_structure:
+        if self.tabs.selected_index == 1 and self.raw_file.has_file:
+            self.model.structure_file = self.raw_file.get_aiida_file_object()
+        else:
+            self.structure_manager.store_structure()
+        if self.model.has_structure or self.model.has_file:
             self.model.submitted = True
         return

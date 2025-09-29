@@ -40,6 +40,11 @@ class FileUploadWidget(HBox):
 
         return
 
+    @property
+    def has_file(self) -> bool:
+        """True if a file has been uploaded."""
+        return self.file is not None
+
     def _on_file_upload(self, _):
         """Handle file upload events."""
         if self.file_upload.value:
