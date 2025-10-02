@@ -1,11 +1,16 @@
 """Defines the model and view components for the structure setup stage."""
 
+from pathlib import Path
+from tempfile import NamedTemporaryFile
+
 import aiidalab_widgets_base as awb
+import ase
 import ipywidgets as ipw
 import traitlets as tl
 from aiida.orm import SinglefileData, StructureData
 
-from aiidalab_alc.file_handling import FileUploadWidget
+from aiidalab_alc.common.database import AiiDADatabaseWidget
+from aiidalab_alc.common.file_handling import FileUploadWidget
 
 
 class StructureStepModel(tl.HasTraits):
@@ -64,59 +69,42 @@ class StructureWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
         self.info = ipw.HTML(
             """
                 <p>
-                    Load in a structure to start the workflow. The
-                    structure can either be in AiiDA StructureData
-                    format, or as a raw input file if the
-                    file format is not directly (or fully) supported by AiiDA
-                    (e.g. ChemShell .pun files or partial charges from .cjson files).
+                    Load in a structure to start the workflow.
                 </p>
             """
         )
 
         self.tabs = ipw.Tab()
-        self.tabs.set_title(0, "AiiDA Structure")
-        self.tabs.set_title(1, "Input File")
 
-        self.structure_manager = awb.StructureManagerWidget(
-            importers=[
-                awb.StructureUploadWidget(title="From computer"),
-                awb.StructureBrowserWidget(
-                    title="AiiDA database", query_types=(StructureData,)
-                ),
-                awb.SmilesWidget(title="SMILES"),
-                awb.StructureExamplesWidget(
-                    title="From Examples",
-                    examples=[],
-                ),
-            ],
-            editors=[
-                awb.BasicStructureEditor(title="Basic Editor"),
-                awb.BasicCellEditor(title="Basic Cell Editor"),
-            ],
-            node_class="StructureData",
-            storable=False,
-        )
-        ipw.dlink((self.structure_manager, "structure_node"), (self.model, "structure"))
-
+        # upload file
+        self.tabs.set_title(0, "Upload File")
         self.file_input_widget = ipw.VBox()
-        self.raw_file = FileUploadWidget(description="Structure file: ")
+        self.file_uploader = FileUploadWidget(description="Structure file: ")
         self.file_input_widget.children = [
-            self.raw_file,
+            self.file_uploader,
         ]
+        ipw.dlink((self.file_uploader, "file"), (self.model, "structure_file"))
 
-        self.tabs.children = [
-            self.structure_manager,
-            self.file_input_widget,
-        ]
+        # AiiDA database
+        self.tabs.set_title(1, "AiiDA Database")
+        self.database_widget = AiiDADatabaseWidget(
+            title="AiiDA Database",
+            query=[
+                SinglefileData,
+            ],
+        )
+        ipw.dlink((self.database_widget, "data_object"), (self.model, "structure_file"))
 
-        return
+        self.tabs.children = [self.file_input_widget, self.database_widget]
+
+        self.model.observe(self._on_file_upload, "structure_file")
 
     def render(self):
         """Render the wizard's contents if not already rendered."""
         if self.rendered:
             return
 
-        submit_btn = ipw.Button(
+        self.submit_btn = ipw.Button(
             description="Submit Structure",
             disabled=False,
             button_style="success",
@@ -124,22 +112,56 @@ class StructureWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
             icon="check",
             layout={"margin": "auto", "width": "60%"},
         )
-        submit_btn.on_click(self.submit_structure)
+        self.submit_btn.on_click(self.submit_structure)
+        self.viewer = ipw.HTML("<p>No structure found...</p>")
 
-        self.children = [
-            self.info,
-            self.tabs,
-            submit_btn,
-        ]
+        self._update_children()
         self.rendered = True
         return
 
+    def _update_children(self) -> None:
+        self.children = [
+            self.info,
+            self.tabs,
+            ipw.HTML("<h2>Viewer:</h2>"),
+            self.viewer,
+            self.submit_btn,
+        ]
+        return
+
+    def _on_file_upload(self, change=None):
+        """When file upload button is pressed."""
+        if self.model.has_file:
+            structure = self._get_ase_object_from_file(
+                self.model.structure_file.filename, self.model.structure_file.content
+            )
+            if structure:
+                self.viewer = awb.viewers.StructureDataViewer(structure=structure)
+            else:
+                self.viewer = ipw.HTML(
+                    "<p>Could not visualise structure from file...</p>"
+                )
+            self._update_children()
+        return
+
+    def _get_ase_object_from_file(self, fname: str, content: bytes) -> ase.Atoms | None:
+        suffix = "".join(Path(fname).suffixes)
+        with NamedTemporaryFile(suffix=suffix) as tmpf:
+            tmpf.write(content)
+            tmpf.flush()
+            try:
+                structure = ase.io.read(tmpf.name, index=":")[0]
+            except (KeyError, ase.io.formats.UnknownFileTypeError):
+                structure = None
+        return structure
+
     def submit_structure(self, _):
-        """Store the current structure in the AiiDA database."""
-        if self.tabs.selected_index == 1 and self.raw_file.has_file:
-            self.model.structure_file = self.raw_file.get_aiida_file_object()
-        else:
-            self.structure_manager.store_structure()
-        if self.model.has_structure or self.model.has_file:
+        """Submit the structure step."""
+        if self.model.has_file or self.model.has_structure:
+            self.file_uploader.disable(True)
+            self.database_widget.disable(True)
+            self.submit_btn.disabled = True
             self.model.submitted = True
+        else:
+            self.model.submitted = False
         return
