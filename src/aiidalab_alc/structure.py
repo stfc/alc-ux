@@ -161,6 +161,7 @@ class StructureWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
             self.file_uploader.disable(True)
             self.database_widget.disable(True)
             self.submit_btn.disabled = True
+            self.submit_btn.description = "Submitted"
             self.model.submitted = True
         else:
             self.model.submitted = False
