@@ -79,6 +79,5 @@ class FileUploadWidget(HBox):
 
     def disable(self, val: bool) -> None:
         """Disable the file upload widget."""
-        print(val)
         self.file_upload.disabled = val
         return
