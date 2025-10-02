@@ -4,7 +4,7 @@ from datetime import datetime
 
 import aiidalab_widgets_base as awb
 import ipywidgets as ipw
-from IPython.display import Image, display
+from IPython.display import display
 
 from aiidalab_alc.navigation import QuickAccessButtons
 from aiidalab_alc.process import MainAppModel
@@ -13,7 +13,6 @@ from aiidalab_alc.resources import (
 )
 from aiidalab_alc.results import ResultsWizardStep
 from aiidalab_alc.structure import StructureWizardStep
-from aiidalab_alc.utils import get_app_dir
 from aiidalab_alc.workflow import MethodWizardStep
 
 
@@ -35,14 +34,14 @@ class MainAppView(ipw.VBox):
 
     def __init__(self, model: MainAppModel, **kwargs):
         """MainAppView constructor."""
-        logo_img = Image(
-            filename=get_app_dir() / "images/alc-100.png",
-            width=300,
+        logo = ipw.HTML(
+            """
+            <div class="app-container logo" style="width: 300px;">
+                <img src="./images/alc.svg" alt="ALC AiiDAlab App Logo" />
+            </div>
+            """,
+            layout={"margin": "auto"},
         )
-        logo = ipw.Output(layout={"margin": "auto"})
-        with logo:
-            display(logo_img)
-        logo.add_class("logo")
 
         subtitle = ipw.HTML(
             """
