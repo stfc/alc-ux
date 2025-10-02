@@ -6,7 +6,7 @@ import aiidalab_widgets_base as awb
 import ipywidgets as ipw
 from IPython.display import display
 
-from aiidalab_alc.navigation import QuickAccessButtons
+from aiidalab_alc.common.navigation import QuickAccessButtons
 from aiidalab_alc.process import MainAppModel
 from aiidalab_alc.resources import (
     ComputationalResourcesWizardStep,

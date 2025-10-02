@@ -2,7 +2,7 @@
 
 import ipywidgets as ipw
 
-from aiidalab_alc.navigation import QuickAccessButtons
+from aiidalab_alc.common.navigation import QuickAccessButtons
 
 
 def get_start_widget(appbase, jupbase, notebase):
