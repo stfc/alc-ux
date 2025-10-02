@@ -11,6 +11,7 @@ from aiidalab_alc.process import MainAppModel
 from aiidalab_alc.resources import (
     ComputationalResourcesWizardStep,
 )
+from aiidalab_alc.results import ResultsWizardStep
 from aiidalab_alc.structure import StructureWizardStep
 from aiidalab_alc.utils import get_app_dir
 from aiidalab_alc.workflow import MethodWizardStep
@@ -88,15 +89,17 @@ class WizardWidget(ipw.VBox):
         **kwargs :
             Keyword arguments passed to the `ipywidgets.VBox.__init__()`.
         """
-        self.structureStep = StructureWizardStep(model.structureModel)
-        self.workflowStep = MethodWizardStep(model.workflowModel)
-        self.compResourceStep = ComputationalResourcesWizardStep(model.resourceModel)
+        self.structureStep = StructureWizardStep(model.structure_model)
+        self.workflowStep = MethodWizardStep(model.workflow_model)
+        self.compResourceStep = ComputationalResourcesWizardStep(model.resource_model)
+        self.results_step = ResultsWizardStep(model.results_model)
 
         self._wizard_app_widget = awb.WizardAppWidget(
             steps=[
                 ("Select Structure", self.structureStep),
                 ("Configure Workflow", self.workflowStep),
                 ("Configure Computational Resources", self.compResourceStep),
+                ("Results", self.results_step),
             ]
         )
 
@@ -105,6 +108,8 @@ class WizardWidget(ipw.VBox):
             "selected_index",
         )
 
+        self.results_step.disabled = True
+        self._model = model
         # Hide the header
         self._wizard_app_widget.children[0].layout.display = "none"
 

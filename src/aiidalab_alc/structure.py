@@ -33,7 +33,7 @@ class StructureStepModel(tl.HasTraits):
     @property
     def is_periodic(self) -> bool:
         """True if the attached StructureData object is a periodic structure."""
-        if self.hasStructure:
+        if self.has_structure:
             return any(self.structure.pbc)
         return False
 

@@ -54,7 +54,7 @@ class FileUploadWidget(HBox):
             self.file_handle.value = ""
         return
 
-    def get_file_contents(self) -> BytesIO:
+    def get_file_contents(self) -> BytesIO | None:
         """Get the contents of the uploaded file as a BytesIO object."""
         if self.file is not None:
             return BytesIO(self.file["content"])
@@ -76,3 +76,9 @@ class FileUploadWidget(HBox):
                 description=self.file_handle.description,
             )
         return None
+
+    def disable(self, val: bool) -> None:
+        """Disable the file upload widget."""
+        print(val)
+        self.file_upload.disabled = val
+        return

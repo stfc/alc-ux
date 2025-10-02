@@ -3,8 +3,10 @@
 import traitlets as tl
 from aiida.engine import submit
 from aiida.orm import Dict, load_code
+from ipywidgets import dlink
 
 from aiidalab_alc.resources import ComputationalResourcesModel
+from aiidalab_alc.results import ResultsModel
 from aiidalab_alc.structure import StructureStepModel
 from aiidalab_alc.workflow import ChemShellWorkflowModel
 
@@ -12,16 +14,21 @@ from aiidalab_alc.workflow import ChemShellWorkflowModel
 class MainAppModel(tl.HasTraits):
     """The main AiiDAlab application MVC model."""
 
+    block_results = tl.Bool(True, allow_none=False)
+
     def __init__(self):
         """MainAppModel constructor."""
         super().__init__()
-        self.structureModel = StructureStepModel()
-        self.workflowModel = ChemShellWorkflowModel()
-        self.resourceModel = ComputationalResourcesModel()
+        self.structure_model = StructureStepModel()
+        self.workflow_model = ChemShellWorkflowModel()
+        self.resource_model = ComputationalResourcesModel()
+        self.results_model = ResultsModel()
 
-        self.resourceModel.observe(self._submit_model, "submitted")
+        self.resource_model.observe(self._submit_model, "submitted")
+        dlink((self, "block_results"), (self.results_model, "blocked"))
 
         self.process = None
+
         return
 
     def _submit_model(self, _) -> None:
@@ -29,10 +36,16 @@ class MainAppModel(tl.HasTraits):
         if ChemShellProcess.validate_model(self):
             self.process = ChemShellProcess(self)
             self.process.submit_process()
+            self.block_results = False
+            self.results_model.process_uuid = self.process.node.uuid
             print("Submit model called")
         else:
             print("ERROR: Input Validation Failed")
         return
+
+    def reset(self) -> None:
+        """Reset the state of the model."""
+        self.submitted = False
 
 
 class ChemShellProcess:
@@ -66,10 +79,13 @@ class ChemShellProcess:
         bool
             True if the model is valid, False otherwise.
         """
-        if not model.structureModel.has_structure:
-            print("No structure provided.")
-            return False
-        if not model.workflowModel.force_field:
+        print(model.structure_model.has_file)
+        print(model.structure_model.structure_file)
+        if not model.structure_model.has_structure:
+            if not model.structure_model.has_file:
+                print("No structure provided.")
+                return False
+        if not model.workflow_model.force_field:
             print("No force field provided.")
             return False
         # Add more validation checks as needed
@@ -77,29 +93,34 @@ class ChemShellProcess:
 
     def submit_process(self):
         """Submit the AiiDA process."""
-        builder = load_code(self.model.resourceModel.code_label).get_builder()
-        builder.structure = self.model.structureModel.structure
+        builder = load_code(self.model.resource_model.code_label).get_builder()
+        if self.model.structure_model.has_file:
+            builder.structure = self.model.structure_model.structure_file
+        else:
+            builder.structure = self.model.structure_model.structure
         builder.qm_parameters = Dict(
             {
-                "theory": self.model.workflowModel.qm_theory,
+                "theory": self.model.workflow_model.qm_theory,
                 "basis": "cc-pvtz"
-                if self.model.workflowModel.basis_quality
+                if self.model.workflow_model.basis_quality
                 else "cc-pvdz",
                 "method": "dft",
                 "functional": "B3LYP",
             }
         )
-        builder.mm_parameters = Dict(
-            {
-                "theory": self.model.workflowModel.mm_theory,
-            }
-        )
-        builder.force_field_file = self.model.workflowModel.force_field
-        builder.qmmm_parameters = Dict(
-            {
-                "qm_region": self.model.workflowModel.qm_region,
-                "embedding": "mechanical",
-            }
-        )
+        if self.model.workflow_model.use_mm:
+            builder.mm_parameters = Dict(
+                {
+                    "theory": self.model.workflow_model.mm_theory,
+                }
+            )
+            builder.force_field_file = self.model.workflow_model.force_field
+            builder.qmmm_parameters = Dict(
+                {
+                    "qm_region": self.model.workflow_model.qm_region,
+                }
+            )
+        builder.calculation_parameters = Dict({"gradients": True})
+        builder.optimisation_parameters = Dict({})
         self.node = submit(builder)
         return

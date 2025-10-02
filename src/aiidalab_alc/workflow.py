@@ -17,6 +17,7 @@ class ChemShellWorkflowModel(tl.HasTraits):
     basis_quality = tl.Bool(True, allow_none=False)
     force_field = tl.Instance(SinglefileData, allow_none=False)
     submitted = tl.Bool(False).tag(sync=True)
+    use_mm = tl.Bool(False).tag(sync=True)
 
     default_guide = ""
 
@@ -117,34 +118,41 @@ class ChemShellOptionsWidget(ipw.VBox):
             disabled=False,
             layout={"width": "50%"},
         )
+        self.qm_basis_dropdown = ipw.Dropdown(
+            options=["fast", "accurate"],
+            description="Basis Quality:",
+            disabled=False,
+            layout={"width": "50%"},
+        )
+        self.qm_basis_dropdown.observe(self._update_basis_quality, "selected_index")
 
+        self.enable_mm_chk = ipw.Checkbox(
+            value=False, description="Use QM/MM", indent=True
+        )
+        self.enable_mm_chk.observe(self._enable_mm_options, "value")
+        ipw.dlink((self.enable_mm_chk, "value"), (self.model, "use_mm"))
         self.mm_theory_dropdown = ipw.Dropdown(
             options=self._get_mm_theory_options(),
             description="MM Theory:",
-            disabled=False,
+            disabled=True,
             layout={"width": "50%"},
         )
         self.qm_region_text = ipw.Text(
             value="",
             description="QM Region:",
-            disabled=False,
+            disabled=True,
             layout={"width": "50%"},
         )
-        self.basis_quality = ipw.Checkbox(
-            value=True,
-            description="Use high quality basis set (slower):",
-            disbled=False,
-            layout={"width": "50%"},
-        )
-        tl.link((self.basis_quality, "value"), (self.model, "basis_quality"))
 
         self.ff_file = FileUploadWidget(description="Force Field:")
+        self.ff_file.disable(True)
 
         self.children = [
             self.qm_theory_dropdown,
+            self.qm_basis_dropdown,
+            self.enable_mm_chk,
             self.mm_theory_dropdown,
             self.qm_region_text,
-            self.basis_quality,
             self.ff_file,
         ]
 
@@ -173,6 +181,19 @@ class ChemShellOptionsWidget(ipw.VBox):
             return []
         except Exception as e:
             raise e
+
+    def _enable_mm_options(self, _) -> None:
+        self.mm_theory_dropdown.disabled = not self.enable_mm_chk.value
+        self.qm_region_text.disabled = not self.enable_mm_chk.value
+        self.ff_file.disable(not self.enable_mm_chk.value)
+        return
+
+    def _update_basis_quality(self, _) -> None:
+        if self.qm_basis_dropdown.selected_index == 0:
+            self.model.basis_quality = False
+        else:
+            self.model.basis_quality = True
+        return
 
     def render(self):
         """Render the options widget contents if not already rendered."""
