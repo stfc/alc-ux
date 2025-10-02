@@ -38,7 +38,6 @@ class MainAppModel(tl.HasTraits):
             self.process.submit_process()
             self.block_results = False
             self.results_model.process_uuid = self.process.node.uuid
-            print("Submit model called")
         else:
             print("ERROR: Input Validation Failed")
         return
@@ -79,15 +78,17 @@ class ChemShellProcess:
         bool
             True if the model is valid, False otherwise.
         """
-        print(model.structure_model.has_file)
-        print(model.structure_model.structure_file)
         if not model.structure_model.has_structure:
             if not model.structure_model.has_file:
                 print("No structure provided.")
                 return False
-        if not model.workflow_model.force_field:
-            print("No force field provided.")
-            return False
+        if model.workflow_model.use_mm:
+            if not model.workflow_model.force_field:
+                print("No force field provided.")
+                return False
+            if not model.workflow_model.qm_region:
+                print("No qm_ region specified")
+                return False
         # Add more validation checks as needed
         return True
 
