@@ -11,11 +11,11 @@ from aiidalab_alc.common.file_handling import FileUploadWidget
 class ChemShellWorkflowModel(tl.HasTraits):
     """The model for setting up a ChemShell workflow."""
 
-    qm_theory = tl.Unicode("PySCF", allow_none=False)
-    mm_theory = tl.Unicode("GULP", allow_none=False)
-    qm_region = tl.List([], allow_none=False)
+    qm_theory = tl.Unicode("NONE", allow_none=False)
+    mm_theory = tl.Unicode("NONE", allow_none=True)
+    qm_region = tl.List([], allow_none=True)
     basis_quality = tl.Bool(True, allow_none=False)
-    force_field = tl.Instance(SinglefileData, allow_none=False)
+    force_field = tl.Instance(SinglefileData, allow_none=True)
     submitted = tl.Bool(False).tag(sync=True)
     use_mm = tl.Bool(False).tag(sync=True)
 
@@ -125,6 +125,7 @@ class ChemShellOptionsWidget(ipw.VBox):
             layout={"width": "50%"},
         )
         self.qm_basis_dropdown.observe(self._update_basis_quality, "selected_index")
+        self.qm_basis_dropdown.index = 1 if self.model.basis_quality else 0
 
         self.enable_mm_chk = ipw.Checkbox(
             value=False, description="Use QM/MM", indent=True
