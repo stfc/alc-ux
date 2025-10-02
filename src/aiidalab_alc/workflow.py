@@ -58,6 +58,7 @@ class MethodWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
         )
 
         self.options_widget = ChemShellOptionsWidget(self.model)
+        ipw.dlink((self.options_widget.ff_file, "file"), (self.model, "force_field"))
 
         self.submit_btn = ipw.Button(
             description="Submit Options",
@@ -86,11 +87,13 @@ class MethodWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
             self.options_widget.qm_region_text.value = ""
         except Exception as e:
             raise e
-
-        if self.options_widget.ff_file.file is not None:
-            self.model.force_field = self.options_widget.ff_file.get_aiida_file_object()
-            self.submit_btn.description = "Submitted"
-            self.submit_btn.disabled = True
+        if self.model.use_mm:
+            if not self.model.force_field:
+                print("ERROR: No force field file found...")
+                return
+        self.submit_btn.description = "Submitted"
+        self.submit_btn.disabled = True
+        self.options_widget.disable(True)
         return
 
 
@@ -202,4 +205,11 @@ class ChemShellOptionsWidget(ipw.VBox):
             return
 
         self.rendered = True
+        return
+
+    def disable(self, val: bool) -> None:
+        """Disable the input fields."""
+        for child in self.children:
+            child.disabled = val
+        self.ff_file.disable(val)
         return
