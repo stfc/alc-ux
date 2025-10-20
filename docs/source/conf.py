@@ -33,4 +33,5 @@ source_suffix = ".rst"
 
 html_theme = 'piccolo_theme'
 html_static_path = ['_static']
+html_css_files = ["custom.css"]
 html_logo = "../../images/alc-100.webp"
