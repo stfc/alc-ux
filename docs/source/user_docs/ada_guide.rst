@@ -1,3 +1,5 @@
+.. _cloud_deployment_guide:
+
 Deployment on ADA Cloud Workspace 
 =================================
 
