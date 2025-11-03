@@ -15,6 +15,7 @@ using either `Docker <https://www.docker.com/get-started>`_ or other compatible 
 To use the base container, run the following,
 
 .. code:: bash 
+
     docker run -it --rm -p 8888:8888 aiidalab/full-stack:latest  
 
 For convenience, many applications create their own images based on those provided by 
@@ -33,6 +34,7 @@ home space of the container (``/home/jovyan/work``) which can be used as the mou
 point within the contianer. To run the container with the correct bind mount run the following, 
 
 .. code:: bash 
+
     docker run -it --rm -p 8888:8888 -v /path/to/local/folder:/home/jovyan/work aiidalab/full-stack:latest 
 
 Another option, is to mount the entire home directory of the container to a local folder. 
@@ -49,12 +51,14 @@ This can be achieved by SSH agant forwarding. First ensure that your local SSH a
 keys added, 
 
 .. code:: bash 
+
     eval "$(ssh-agent -s)"
     ssh-add /path/to/private/key 
 
 Then run the docker container with the following additional arguments, 
 
 .. code:: bash 
+    
         docker run -it --rm -p 8888:8888 \
             -v /path/to/local/folder:/home/jovyan/work \
             -v $SSH_AUTH_SOCK:$SSH_AUTH_SOCK -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK \
