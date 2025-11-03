@@ -1,32 +1,17 @@
+.. figure:: ../../images/alc.svg
+   :alt: ALC Logo
+   :width: 70% 
+   :align: center 
+   :figclass: centre-fig 
+
 ALC AiiDAlab App
 ================
 
-
-User Guide
-----------
-
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 2 
 
-   user_docs/intro 
-   user_docs/run_local
-   user_docs/ada_guide
-   user_docs/resource_manager
-
-
-Developer Guide
----------------
-
-.. toctree::
-   :maxdepth: 2
-
-   dev_docs/intro 
-
-API Documentation 
------------------
-
-.. toctree::
-   :maxdepth: 3
-   
+   user_docs/index 
+   dev_docs/index 
    api_docs/modules 
+
 
