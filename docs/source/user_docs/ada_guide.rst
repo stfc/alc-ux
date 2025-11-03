@@ -63,3 +63,6 @@ as they exist within the mounted home space.
 Data Persistence Outside the Workspace 
 --------------------------------------
 
+It is recommended to use AiiDA's data base exporting tools to save the generated database with all 
+results and provenance relations. This can then be imported into another instance of AiiDA to view 
+or use any of the data nodes within the database. 
