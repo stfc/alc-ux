@@ -123,5 +123,13 @@ class ChemShellProcess:
             )
         builder.calculation_parameters = Dict({"gradients": True})
         builder.optimisation_parameters = Dict({})
+        if self.model.resource_model.ncpus > 1:
+            builder.metadata.options.withmpi = True
+        builder.metadata.options.resources = {
+            "num_mpiprocs_per_machine": self.model.resource_model.ncpus,
+            "num_cores_per_machine": self.model.resource_model.ncpus,
+            "num_machines": 1,
+            "tot_num_mpiprocs": self.model.resource_model.ncpus,
+        }
         self.node = submit(builder)
         return
