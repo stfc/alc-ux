@@ -11,7 +11,7 @@ handle the creation of a new AiiDA user profile (if an existing one is not found
 of the host's SSH agent into the container. This provides a much more user friendly and flexible start-up 
 method. It provides the following input options:
 
-- ``--docker image``: The docker image the conatainter will build from. The default is *aiidalab/full-stack:latest* 
+- ``--docker-image``: The docker image the conatainter will build from. The default is *aiidalab/full-stack:latest* 
 - ``--home-bind``: The directory to which the container's home directory will be bound to. 
     To ensure correct restart behaviour this should always be the same value between instances of the 
     container. The default is the user's home directory (${HOME}).

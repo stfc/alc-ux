@@ -32,7 +32,7 @@ terminal instance on the virtual workspace,
 
 .. code:: bash 
 
-    apptainer run --compat --cleanenv --bind ${HOME}:/home/jovyan --home /home/jovyan docker://ghcr.io/stfc/alc-ux/base:latest
+    apptainer run --compat --cleanenv --bind ${HOME}:/home/jovyan --home /home/jovyan docker://ghcr.io/stfc/alc-ux/base:py310
 
 To run an AiiDAlab instance which contains the AiiDAlab ALC application and some additional
 required python libraries, instead run, 
