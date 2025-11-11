@@ -1,7 +1,15 @@
 .. _loca_aiidalab:
 
-Running AiiDAlab Locally
-========================
+Running AiiDAlab
+================
+
+Start-up Script 
+---------------
+
+For convenience a start-up script is provided within this repository, which will handle the container start up, 
+AiiDA user profile generation and ssh agent forwarding using either apptainer or docker. This can be found ____
+
+If you wish to manually configure the AiiDAlab start-up then follow the remaining guides on this page.
 
 Running The Container
 ---------------------
@@ -24,6 +32,28 @@ One such image is provided in this repository which contains the AiiDAlab
 ALC application and its dependencies. This image is hosted at 
 `<ghcr.io/stfc/alc-ux/full:latest>`_ and can be run locally in the same manner. 
 
+AiiDA User Profile Setup
+------------------------
+
+By default the AiiDA instance within the container defines a default user however, it is possible 
+to configure this user at start up, which is important since all data generated will be tagged with 
+this user configuration. To do this certain environment variables need to be passed to the container 
+at start-up, 
+
+- ``AIIDA_PROFILE_NAME``: The name of the new user profile 
+- ``AIIDA_USER_EMAIL``: Email address associated with the user 
+- ``AIIDA_USER_FIRST_NAME``: User's fisrt name 
+- ``AIIDA_USER_LAST_NAME``: User's second name 
+- ``AIIDA_USER_INSTITUTION``: Institution associated with the user 
+
+These can be passed to the container by using the ``--env`` command line option, or they can all be writted to 
+a file and read in by the ``--env-file`` option.
+
+There are certain circumstances where a new profile is not required, either if you want to manually setup 
+one from within the container or if you are binding in an existing AiiDA configuration folder containing an 
+existing user profile. In this instance you would pass in the ``--env SETUP_DEFAULT_AIIDA_PROFILE=false`` 
+variable, which will disable the creation of a new profile on startup. 
+
 Data Persistence 
 ----------------
 
@@ -39,7 +69,12 @@ point within the contianer. To run the container with the correct bind mount run
 
 Another option, is to mount the entire home directory of the container to a local folder. 
 This will ensure that the AiiDA database and profile information persist between container 
-instances, not just the files produces under the work directory.
+instances, not just the files produced under the work directory
+
+.. code:: bash 
+
+    docker run -it --rm -p 8888:8888 -v /path/to/local/folder:/home/jovyan aiidalab/full-stack:latest 
+
 
 SSH Connections
 ---------------
@@ -66,4 +101,5 @@ Then run the docker container with the following additional arguments,
 
 This will mount the SSH agent socket into the container and set the appropriate environment variable so that SSH 
 connections from within the container will use the local SSH key. This is a very important step since AiiDA 
-relies of SSH key authentication to connect to remote HPC resources. 
+relies on SSH key authentication to connect to remote HPC resources. 
+
