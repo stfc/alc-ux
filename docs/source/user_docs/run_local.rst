@@ -7,7 +7,7 @@ Start-up Script
 ---------------
 
 For convenience a start-up script is provided within this repository, which will handle the container start up, 
-AiiDA user profile generation and ssh agent forwarding using either apptainer or docker. This can be found ____
+AiiDA user profile generation and ssh agent forwarding using either apptainer or docker. This can be found `here <https://github.com/stfc/alc-ux/tree/main/scripts>`_\.
 
 If you wish to manually configure the AiiDAlab start-up then follow the remaining guides on this page.
 
