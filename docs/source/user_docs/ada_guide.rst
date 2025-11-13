@@ -25,10 +25,16 @@ start script provided or manually configure and run AiiDAlab within the workspac
 Run AiiDAlab
 ------------
 
+Startup Script 
+~~~~~~~~~~~~~~
+
 A `startup <https://github.com/stfc/alc-ux/tree/main/scripts>`_ script is provided which will handle 
 initialising the container and the user workspace within the container. Once this has run a web address 
 will be provided which can be opened within a browser and will display the AiiDAlab application home page. 
 If you wish to manually setup and run AiiDAlab on ADA, continue with the guide below.
+
+Manual Initialisation
+~~~~~~~~~~~~~~~~~~~~~
 
 ADA uses Apptainer for container deployment which can in turn pull and run the docker 
 image's provided with the AiiDAlab ALC app. Since these images were created to be used 
