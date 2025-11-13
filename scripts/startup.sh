@@ -67,13 +67,21 @@ echo "Checking for SSH Agent..."
 ssh-add -l > /dev/null 2>&1
 if [ $? -eq 0 ]; then 
     echo "SSH agent running and contains sshkey" 
-    ssh_str="-v $SSH_AUTH_SOCK:$SSH_AUTH_SOCK -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK" 
+    if [[ $container_engine == "apptainer" ]]; then 
+        ssh_str="--bind $SSH_AUT_SOCK:$SSH_AUTH_SOCK --env $SSH_AUTH_SOCK=$SSH_AUTH_SOCK"
+    else
+        ssh_str="-v $SSH_AUTH_SOCK:$SSH_AUTH_SOCK -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK" 
+    fi 
 else 
     echo "Attempting to load default keys..." 
     ssh-add 
     if [ $? -eq 0 ]; then
         echo "Successfully added default keys." 
-        ssh_str="-v $SSH_AUTH_SOCK:$SSH_AUTH_SOCK -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK" 
+        if [[ $container_engine == "apptainer" ]]; then 
+            ssh_str="--bind $SSH_AUT_SOCK:$SSH_AUTH_SOCK --env $SSH_AUTH_SOCK=$SSH_AUTH_SOCK"
+        else
+            ssh_str="-v $SSH_AUTH_SOCK:$SSH_AUTH_SOCK -e SSH_AUTH_SOCK=$SSH_AUTH_SOCK" 
+        fi 
     else 
         echo "SSH agent not running. SSH configuration will have to be managed from within the container."
         ssh_str=""
