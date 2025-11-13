@@ -1,5 +1,12 @@
 #!/bin/bash -l 
 
+check_for_executable() {
+    local executable_name="$1"
+    command -v "$executable_name" > /dev/null 2>&1
+    return $?
+}
+
+
 docker_image="aiidalab/full-stack:latest"
 home_bind="${HOME}"
 container_engine="apptainer"
@@ -27,6 +34,16 @@ while [ $# -gt 0 ]; do
     shift
 done
 # --- END ARGUMENT PARSING ---
+
+# Check for container engine executable 
+echo "Checking for requested container engine executable..." 
+if check_for_executable $container_engine; then 
+    echo "$container_engine found in PATH" 
+else
+    echo "$container_engine not found! Please add the required executable to PATH or use a different engine" 
+    echo "Supported container engines are: apptainer, docker"
+    exit 1 
+fi 
 
 # Check if provided bind path exists and create it if not 
 if [ ! -d $home_bind ]; then
