@@ -20,6 +20,7 @@ while [ $# -gt 0 ]; do
         *)
             # Handle unrecognized arguments
             echo "Warning: Unknown argument or invalid format: '$1'"
+            exit 1
             ;;
     esac
     # Move to the next argument
