@@ -12,8 +12,23 @@ applications.
 Setup ADA Workspace
 -------------------
 
+The following section is specific to the ADA cloud computing platform. 
+
+To be able to use ADA it is required to setup an 
+`STFC facilities user account <https://users.facilities.rl.ac.uk/auth//?service=https://ada.stfc.ac.uk/&redirecturl=https://ada.stfc.ac.uk/auth/DEV>`_ 
+using your UKRI credentials. Once created you will be able to access `ADA <https://ada.stfc.ac.uk/>`_
+and create and manage workspaces. It is currently recommended to use create a developer workspace 
+as the functionality for AiiDAlab on ADA is still a work in progress. Once created you can use the 
+start script provided or manually configure and run AiiDAlab within the workspace as described below.
+
+
 Run AiiDAlab
 ------------
+
+A `startup <https://github.com/stfc/alc-ux/tree/main/scripts>`_ script is provided which will handle 
+initialising the container and the user workspace within the container. Once this has run a web address 
+will be provided which can be opened within a browser and will display the AiiDAlab application home page. 
+If you wish to manually setup and run AiiDAlab on ADA, continue with the guide below.
 
 ADA uses Apptainer for container deployment which can in turn pull and run the docker 
 image's provided with the AiiDAlab ALC app. Since these images were created to be used 
