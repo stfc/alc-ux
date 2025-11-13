@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=AiiDAlab 
+Comment=AiiDAlab application hosted by Apptainer
+Exec=startup.sh # Edit path if moving file 
+Icon=../images/alc.svg 
+Terminal=true
+Type=Application
+Categories=Utilities

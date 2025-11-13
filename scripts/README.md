@@ -17,3 +17,13 @@ method. It provides the following input options:
     container. The default is the user's home directory (${HOME}).
 - ``--use-docker``: This key will tell the script to use the Docker container engine instead of the 
     default Apptainer container engine. 
+
+
+## aiidalab.desktop 
+
+This is an example desktop configuration file which launches the startup script and in turn the configured 
+AiiDAlab application hosted in an Apptainer container. It can be accessed from the file explorer and when 
+opened runs the script as defined in the ``Exec`` field. For convenience it is recommended that a user edit
+this file to give the absolute path to the ``startup.sh`` script and ``alc.svg`` image in the ``Exec`` and 
+``Icon`` fields (instead of a relative path) and then place the file in the ``/home/${USER}/Desktop`` folder
+where it will now show on the user's desktop and can be executed from there. 
