@@ -8,7 +8,7 @@ ALC AiiDAlab App
 ================
 
 .. toctree::
-   :maxdepth: 2 
+   :maxdepth: 2
 
    user_docs/index 
    dev_docs/index 
