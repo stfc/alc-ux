@@ -142,3 +142,9 @@ entries to the remote machine.
         src: alc.svg
         dest: /usr/share/pximaps/aiidalab.ico 
         mode: "0644"
+
+For ADA style ansible configuration this would be places under the ``roles/software/utilities/aiidalab/tasks`` 
+entries and names as ``main.yml``. Any associated files which would be required by the role (e.g. for copy 
+commands) would then be placed in the corresponding ``roles/software/utilities/aiidalab/files`` directory. 
+For further details on the ADA specific deployment of Ansible roles please contact supportanalysis@stfc.ac.uk. 
+For any other cloud platform please contact the relevant support team. 
