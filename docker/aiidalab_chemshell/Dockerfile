@@ -5,10 +5,10 @@ FROM ghcr.io/stfc/alc-ux/base:py310
 
 USER root
  
-# Install some extra required dendencies to speed up start up 
-RUN pip install aiidalab_widgets_base --no-cache-dir --no-user
+# Install the alc-ux AiiDAlab plugin to the apps folder 
+RUN pip install git+https://github.com/stfc/alc-ux.git#egg=alc-ux --src ${HOME}/apps
 
-# Install alc aiida plugins 
+# Install alc aiida plugins (if not configured as dependencies of the AiiDAlab plugin app)
 RUN pip install aiida-chemshell aiida-mlip --no-cache-dir --no-user  
 
 # This will install alc-ux on container start up 

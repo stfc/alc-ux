@@ -49,39 +49,26 @@ to generate a custom docker image which contains all the required components and
 given workflow out of the box. This can be achieved by bulding upon the base images described above. 
 An example of this is the ``aiidalab/qe`` image which contains a pre-installed Quantum ESPRESSO plugin 
 and all its dependencies. To create a custom image you will need to create a ``Dockerfile`` which uses 
-the disired base image, then install all required dependencies and ensure that the AiiDAlab plugins are 
+the desired base image, then install all required dependencies and ensure that the AiiDAlab plugins are 
 installed in the ``/home/jovyan/apps/`` directory so they are discoverable by the AiiDAlab runtime. 
 
 .. code:: dockerfile 
 
-    FROM aiidalab/full-stack:latest 
+    # Use this for the latest official aiidalab image (Python 3.9)
+    # FROM aiidalab/full-stack:latest 
+    # Use this for a ported version of the above running on Python 3.10 
+    FROM ghcr.io/stfc/alc-ux/base:py310  
 
     USER root
+    
+    # Install the alc-ux AiiDAlab plugin to the apps folder 
+    RUN pip install git+https://github.com/stfc/alc-ux.git#egg=alc-ux --src ${HOME}/apps
 
-    # Install some extra required dendencies to speed up start up
-    RUN pip install aiidalab_widgets_base --no-cache-dir --no-user
+    # Install alc aiida plugins (if not configured as dependencies of the AiiDAlab plugin app)
+    RUN pip install aiida-chemshell aiida-mlip --no-cache-dir --no-user  
 
-    # Install any required aiida plugins
-    RUN pip install aiida-chemshell aiida-mlip --no-cache-dir --no-user
-
-    # This will install alc-ux AiiDAlab app on container start up into the correct directory
+    # This will install alc-ux on container start up 
     COPY 61_prepare-aiidalab_alc.sh /usr/local/bin/before-notebook.d/
 
     USER ${NB_UID}
     WORKDIR ${HOME}
-
-where the initialisation script ``61_prepare-aiidalab_alc.sh`` contains the following, 
-
-.. code:: bash 
-
-    #!/bin/bash
-
-    echo "INSTALLING AiiDAlab ALC app"
-    cd "${HOME}"/apps
-    wget https://github.com/stfc/alc-ux/archive/refs/heads/main.zip
-    unzip main.zip
-    rm -f main.zip
-    cd "${HOME}"/apps/alc-ux-main
-    pip install -q .
-
-    cd "${HOME}"
