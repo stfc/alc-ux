@@ -120,15 +120,24 @@ entries to the remote machine.
 
 .. code:: yaml
 
+    # Role requires the following vars:
+    # aiidalab_docker_image -> the docker image to run the AiiDAlab jupyter notebook instance
+
     - name: Install AiiDAlab container
       ansible.builtin.command: >
-        apptainer pull --force --dir /opt/containers/
-        aiidalab/full-stack:latest
+        apptainer pull 
+        --force 
+        --dir /opt/containers/
+        aiidalab.sif
+        docker://{{ aiidalab_docker_image }}
+      changed_when: true
 
     - name: Copy startup script 
       ansible.builtin.copy:
         src: aiidalab_startup.sh
         dest: /opt/aiidalab/
+        owner: root
+        mode: "0755"
 
     - name: Copy menu shortcut for AiiDAlab 
       ansible.builtin.copy:
@@ -139,9 +148,10 @@ entries to the remote machine.
 
     - name: Copy icon for AiiDAlab
       ansible.builtin.copy:
-        src: alc.svg
-        dest: /usr/share/pximaps/aiidalab.ico 
+        src: aiidalab_logo.svg
+        dest: /usr/share/pixmaps/aiidalab_logo.svg
         mode: "0644"
+        
 
 For ADA style ansible configuration this would be places under the ``roles/software/utilities/aiidalab/tasks`` 
 entries and names as ``main.yml``. Any associated files which would be required by the role (e.g. for copy 
