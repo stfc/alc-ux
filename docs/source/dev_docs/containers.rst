@@ -67,8 +67,5 @@ installed in the ``/home/jovyan/apps/`` directory so they are discoverable by th
     # Install alc aiida plugins (if not configured as dependencies of the AiiDAlab plugin app)
     RUN pip install aiida-chemshell aiida-mlip --no-cache-dir --no-user  
 
-    # This will install alc-ux on container start up 
-    COPY 61_prepare-aiidalab_alc.sh /usr/local/bin/before-notebook.d/
-
     USER ${NB_UID}
     WORKDIR ${HOME}
