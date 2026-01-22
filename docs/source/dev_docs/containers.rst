@@ -1,3 +1,5 @@
+.. _developing_containers:
+
 Developing With Docker Containers
 =================================
 

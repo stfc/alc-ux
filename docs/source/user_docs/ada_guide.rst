@@ -12,8 +12,42 @@ applications.
 Setup ADA Workspace
 -------------------
 
+The following section is specific to the ADA cloud computing platform. 
+
+To be able to use ADA it is required to setup an 
+`STFC facilities user account <https://users.facilities.rl.ac.uk/auth//?service=https://ada.stfc.ac.uk/&redirecturl=https://ada.stfc.ac.uk/auth/DEV>`_ 
+using your UKRI credentials. Once created you will be able to access `ADA <https://ada.stfc.ac.uk/>`_
+and create and manage workspaces. It will also provide access to online tools to enable data transfer 
+to and from ADA workspaces via a user home directory, which will be mounted into any workspace you 
+create. There are also tools for mounting external data shares into your running workspaces. 
+It is currently recommended to use create a developer workspace 
+as the functionality for AiiDAlab on ADA is still a work in progress. Once created you can use the 
+start script provided or manually configure and run AiiDAlab within the workspace as described below.
+
+Any questions regarding the creation of an ADA user account or workspace management can be directed to 
+the ADA support team at supportanalysis@stfc.ac.uk. 
+
+
 Run AiiDAlab
 ------------
+
+Startup Script 
+~~~~~~~~~~~~~~
+
+A `startup <https://github.com/stfc/alc-ux/tree/main/scripts>`_ script is provided which will handle 
+initialising the container and the user workspace within the container. Once this has run a web address 
+will be provided which can be opened within a browser and will display the AiiDAlab application home page. 
+This script comes pre-installed on many instances of ADA workspaces, if it is not present in your groups
+default workspace configuration and you would like it to be please get in touch with the ADA support 
+team at supportanalysis@stfc.ac.uk. They will need to know for which group you would like to configure 
+AiiDAlab for and what AiiDAlab based docker image provides all the required plugins and software for 
+your workflows otherwise the default aiidalab/ful-stack will be used and users will have to configure the
+required plugins and software themselves. 
+
+If you wish to configure a manual setup and run AiiDAlab on ADA, continue with the guide below.
+
+Manual Initialisation
+~~~~~~~~~~~~~~~~~~~~~
 
 ADA uses Apptainer for container deployment which can in turn pull and run the docker 
 image's provided with the AiiDAlab ALC app. Since these images were created to be used 
@@ -32,7 +66,7 @@ terminal instance on the virtual workspace,
 
 .. code:: bash 
 
-    apptainer run --compat --cleanenv --bind ${HOME}:/home/jovyan --home /home/jovyan docker://ghcr.io/stfc/alc-ux/base:latest
+    apptainer run --compat --cleanenv --bind ${HOME}:/home/jovyan --home /home/jovyan docker://ghcr.io/stfc/alc-ux/base:py310
 
 To run an AiiDAlab instance which contains the AiiDAlab ALC application and some additional
 required python libraries, instead run, 
@@ -63,6 +97,6 @@ as they exist within the mounted home space.
 Data Persistence Outside the Workspace 
 --------------------------------------
 
-It is recommended to use AiiDA's data base exporting tools to save the generated database with all 
+It is recommended to use AiiDA's database exporting tools to save the generated database with all 
 results and provenance relations. This can then be imported into another instance of AiiDA to view 
 or use any of the data nodes within the database. 
