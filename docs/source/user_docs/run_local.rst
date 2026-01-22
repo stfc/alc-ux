@@ -8,8 +8,8 @@ Start-up Script
 
 For convenience a start-up script is provided within this repository, which will handle the container start up, 
 AiiDA user profile generation and ssh agent forwarding using either apptainer or docker. This can be found `here <https://github.com/stfc/alc-ux/tree/main/scripts>`_
-along with guidence on how it can be customised at runtime. Note that by default the script will mount the users 
-entire home space into the container, this will bring any existing AiiDA profiles/databases into the conatainer however, 
+along with guidance on how it can be customised at runtime. Note that by default the script will mount the users 
+entire home space into the container, this will bring any existing AiiDA profiles/databases into the container however, 
 it will also create two new directories (if they don't already exist) called ``apps`` and ``work`` within the users 
 home directory. 
 

@@ -4,8 +4,8 @@
    :align: center 
    :figclass: centre-fig 
 
-ALC AiiDAlab App
-================
+ALC AiiDAlab Guides
+===================
 
 .. toctree::
    :maxdepth: 2

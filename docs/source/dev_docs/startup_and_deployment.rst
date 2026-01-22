@@ -105,3 +105,40 @@ by writing a desktop entry file and placing it in the required applications fold
 ADA Deployment (Ansible)
 ------------------------
 
+The ADA cloud platform uses `Ansible <https://docs.ansible.com/>`_ to manage software deployment on its 
+virtual machines (workspaces). This allows tailored deployments for different user groups using a common 
+setup process for available software. A software role has been created for AiiDAlab which will install 
+an AiiDAlab startup script such as those described above onto the workspace's desktop environment making 
+it available through the desktop UI. This script has been created such that the core docker image used 
+can be changed depending on the required plugins and software configurations. To enable AiiDAlab for your
+user group within ADA, contact the ADA developers at supportanalysis@stfc.ac.uk and request an AiiDAlab 
+role be set up for your group and specify the backend docker image to be associated with it. 
+
+For setup from scratch using Ansible as a framework an example playbook is given here which will pull the 
+AiiDAlab docker image using Apptainer as the container engine and copy the startup script and desktop 
+entries to the remote machine. 
+
+.. code:: yaml
+
+    - name: Install AiiDAlab container
+      ansible.builtin.command: >
+        apptainer pull --force --dir /opt/containers/
+        aiidalab/full-stack:latest
+
+    - name: Copy startup script 
+      ansible.builtin.copy:
+        src: aiidalab_startup.sh
+        dest: /opt/aiidalab/
+
+    - name: Copy menu shortcut for AiiDAlab 
+      ansible.builtin.copy:
+        src: aiidalab.desktop
+        dest: /etc/xdg/applications/
+        owner: root
+        mode: "0444"
+
+    - name: Copy icon for AiiDAlab
+      ansible.builtin.copy:
+        src: alc.svg
+        dest: /usr/share/pximaps/aiidalab.ico 
+        mode: "0644"

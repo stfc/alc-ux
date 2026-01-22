@@ -18,6 +18,11 @@ method. It provides the following input options:
 - ``--use-docker``: This key will tell the script to use the Docker container engine instead of the 
     default Apptainer container engine. 
 
+## startup.ps1
+
+This is a powershell equivalent of ``startup.sh`` for use on Windows. Provides almost all functionality of 
+the bash equivalent but is limited to only using Docker.
+
 
 ## aiidalab.desktop 
 
