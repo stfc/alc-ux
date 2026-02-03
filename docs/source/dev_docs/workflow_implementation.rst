@@ -1,6 +1,6 @@
 .. _workflow_implementation:
 
-Creating A UI For An AiiDA Workflow
+Creating a UI For an AiiDA Workflow
 ===================================
 
 The most common application for designing an AiiDAlab interface is to provide a UI interface for a

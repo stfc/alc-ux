@@ -1,5 +1,5 @@
-Plugin Design 
-=============
+General Plugin Design 
+=====================
 
 AiiDAlab plugins are designed as jupyter notebook UIs with a core package providing the 
 UI components. Each plugin is required to have a ``setup.cfg`` and a ``start.py`` files 
@@ -89,9 +89,55 @@ formatting such as vertical/horizontal layout boxes, as well as different forms 
 interaction interfaces, such as text display/input boxes, drop down lists or buttons. These can be 
 combined to build a complex GUI application. 
 
-In addition to the core widgets provided by IPywidgets, AiiDAlab provides several of its own widgets 
-specifically tailored for interacting with AiiDA components such as data structures and the database 
-itself. These are provided in the *aiidalab-widgets-base* python package and are documented 
+In addition to the core widgets provided by IPywidgets, AiiDAlab provides several of its own widgets
+specifically tailored for interacting with AiiDA components such as data structures and the database
+itself. These are provided in the *aiidalab-widgets-base* python package and are documented
 `here <https://aiidalab-widgets-base.readthedocs.io/en/latest/>`_\.
 
+Each widget will expose a data value, typically named ``value`` if using IPywidgets, which contains
+the user's input and which can be linked to internal data variables to dictate functionality within
+the AiiDAlab application using the ``link``, ``dlink`` or ``observe`` functions from the
+**traitlets** module.
 
+
+AiiDA Integration
+-----------------
+
+At its core AiiDAlab is designed to be a UI for the AiiDA workflow management software, therefore
+deep integration between the two is essential. This goes beyond simply designing your AiiDAlab UI
+to follow a given AiiDA plugin but would also include how to interact with and manage the AiiDA 
+database, create AiiDA code instances and remote computer connections or visualise full data
+provenance to understand how data has been generated. 
+
+At present the current AiiDAlab home UI
+does not expose any of this functionality therefore it is up to individual plugins to expose what
+they deem required for their user base. However, AiiDAlab provides several notebook pages or 
+pre-configured widgets which will provide the functionality required and can be included within
+any plugin application. 
+
+
+.. _aiidalab_registry:
+
+The AiiDAlab Plugin Registry
+----------------------------
+
+AiiDAlab hosts many plugin applications in a registry which is exposed within the core AiiDAlab UI
+allowing a user to interactively install and uninstall plugins depending on their desired workflows. Therefore, it is very valuable for any plugin that is developed to be included within
+this registry. 
+
+The registry itself is based on `github <https://github.com/aiidalab/aiidalab-registry>`_ and
+is open to contributions which add new applications to it. New plugins can be registered by editing
+the ``apps.yaml`` file within the registry's repository to include an entry for the new plugin,
+which points to the source code for the new plugin e.g. its GitHub link. 
+
+.. code:: yaml
+
+    hello-world:
+        releases:
+            - "git+https://github.com/aiidalab/aiidalab-hello-world.git@master:"
+
+
+Additional keys can be
+included in the URL to limit the registry entries to certain released versions of the plugin. These
+options are discussed in more detail in the 
+`AiiDAlab documentation <https://aiidalab.readthedocs.io/en/latest/app_development/publish.html>`_\.
