@@ -24,5 +24,6 @@ page on GitHub or to benjamin.speake@stfc.ac.uk.
    :maxdepth: 2
 
    aiidalab_app_design
+   workflow_implementation
    containers
    startup_and_deployment
