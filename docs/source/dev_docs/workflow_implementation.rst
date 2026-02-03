@@ -16,7 +16,12 @@ The example AiiDAlab plugin code provided within this repository contains an exa
 for a simplified geometry optimisation workflow utilising the ChemShell multi-scale chemical modelling
 software package, it will provide a basis for the following guides. A more complete and complex expansion 
 on this example, specifically for ChemShell can be found at
-`aiidalab-chemshell <https://github.com/stfc/aiidalab-chemshell>`_\.
+`aiidalab-chemshell <https://github.com/stfc/aiidalab-chemshell>`_\. 
+
+Since this is a UI interface which
+will be heavily based on the specific software workflow being carried out, the following guide may not be
+appropriate for all design cases. However, it presents a good starting point and a good general structure
+for computation materials modelling workflows.
 
 Breaking Down Workflows Into Simple Steps
 -----------------------------------------
@@ -39,6 +44,11 @@ re-usable framework since the structure input is most likely common across all d
 This wizard must expose the structure in its *model* component which will retain this input as the 
 user moves through the remaining wizards. 
 
+.. figure:: ../../../images/structure_wizard_step.png
+    :width: 90% 
+    :alt: Structure Wizard Step Example
+    :figclass: centre-fig 
+
 Code example: `structure.py <https://github.com/stfc/alc-ux/blob/main/src/aiidalab_alc/structure.py>`_
 
 Workflow Input
@@ -48,6 +58,11 @@ This wizard step contains input fields for the various exposed input for the sim
 this will all correspond to input fields from the workflow itself. Each input field within the wizard
 generally will link to a variable within the workflow steps MVC *model* component which will store the
 users inputs as they move through the remaining inputs.
+
+.. figure:: ../../../images/workflow_wizard_step.png
+    :width: 90% 
+    :alt: Workflow Wizard Step Example
+    :figclass: centre-fig 
 
 Code example: `workflow.py <https://github.com/stfc/alc-ux/blob/main/src/aiidalab_alc/workflow.py>`_
 
@@ -63,6 +78,11 @@ Finally this wizard also exposes input fields to provide a label and description
 to the submitted AiiDA process node. As this is the final input based step once the submit button is 
 pressed the *model* side of the app will collate the input variables provided and submit the process.
 
+.. figure:: ../../../images/resources_wizard_step.png
+    :width: 90% 
+    :alt: Code Setup Wizard Step Example
+    :figclass: centre-fig 
+
 Code example: `resources.py <https://github.com/stfc/alc-ux/blob/main/src/aiidalab_alc/resources.py>`_
 
 Results
@@ -71,6 +91,11 @@ Results
 The final wizard is disabled until a process has been submitted. Once a process has been submitted
 it used the process *uuid* to determine the process state and its generated outputs, which can then
 be visualised within the wizard's *view*.
+
+.. figure:: ../../../images/results_wizard_step.png
+    :width: 90% 
+    :alt: Code Setup Wizard Step Example
+    :figclass: centre-fig
 
 Code example: `results.py <https://github.com/stfc/alc-ux/blob/main/src/aiidalab_alc/results.py>`_
 
