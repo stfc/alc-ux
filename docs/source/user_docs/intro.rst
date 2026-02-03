@@ -17,7 +17,7 @@ AiiDAlab
 ~~~~~~~~
 
 `AiiDAlab <https://www.aiidalab.net/>`_ is a flexible UI interface for the AiiDA
-computational workflow managment system. It provides a logical step by step approach to setting up and running 
+computational workflow management system. It provides a logical step by step approach to setting up and running 
 research software packages leveraging AiiDA's workflow provenance and data management capabilities.
 It is implemented as an interactive jupyter notebook environment leveraging the graphical capabilities of 
 IPython widgets. AiiDAlab is designed to be modular and extensible via a plugin system allowing users to 
@@ -27,6 +27,6 @@ ALC AiiDAlab App
 ~~~~~~~~~~~~~~~~
 
 The ALC AiiDAlab app is an example framework for developing AiiDAlab applications for ALC supported software 
-packages. It provides an example application structure, based around submitting ChemShell workdlows via AiiDA.
+packages. It provides an example application structure, based around submitting ChemShell workflows via AiiDA.
 This application can be used as a starting point for developing new AiiDAlab applications for other software 
 projects. 

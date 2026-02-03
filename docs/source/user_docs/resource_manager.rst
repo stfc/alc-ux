@@ -41,7 +41,7 @@ Remote Computer Instance
 For more computationally expensive tasks it is recommended to setup a connection to a remote 
 HPC cluster where the scientific software will be hosted. AiiDA provides access to remote 
 computers via the SSH protocol using SSH key based authentication (*password based authentication
-will not work*). More information on how AiiDA comunicates via SSH can be found in the 
+will not work*). More information on how AiiDA communicates via SSH can be found in the 
 `AiiDA documentaion <https://aiida.readthedocs.io/projects/aiida-core/en/stable/howto/ssh.html>`_
 
 From the AiiDAlab code setup page a remote computer instance can be setup as follows,
@@ -68,7 +68,7 @@ From the AiiDAlab code setup page a remote computer instance can be setup as fol
         :figclass: centre-fig 
 
 
-#.  Once the required confiuration has been filled in the *Setup computer* and *Test computer* 
+#.  Once the required configuration has been filled in the *Setup computer* and *Test computer* 
     buttons can be used to setup the AiiDA computer instance and test the SSH connection. 
 
 

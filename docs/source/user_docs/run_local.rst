@@ -31,7 +31,7 @@ To use the base container, run the following,
     docker run -it --rm -p 8888:8888 aiidalab/full-stack:latest  
 
 For convenience, many applications create their own images based on those provided by 
-AiiDAlab which contain the additional requirements for their applicaions. 
+AiiDAlab which contain the additional requirements for their applications. 
 One such image is provided in this repository which contains the AiiDAlab 
 ALC application and its dependencies. This image is hosted at 
 `<ghcr.io/stfc/alc-ux/full:latest>`_ and can be run locally in the same manner. 
@@ -50,7 +50,7 @@ at start-up,
 - ``AIIDA_USER_LAST_NAME``: User's second name 
 - ``AIIDA_USER_INSTITUTION``: Institution associated with the user 
 
-These can be passed to the container by using the ``--env`` command line option, or they can all be writted to 
+These can be passed to the container by using the ``--env`` command line option, or they can all be written to 
 a file and read in by the ``--env-file`` option.
 
 There are certain circumstances where a new profile is not required, either if you want to manually setup 
@@ -86,7 +86,7 @@ SSH Connections
 To fully leverage AiiDA's capabilities it is often necessary to connect to a remote hight performance compute
 (HPC) facility to submit jobs. This is typically achieved via SSH connections. Therefore, when running AiiDAlab within
 a container it is important to ensure that the SSH configuration and keys are available within the container. 
-This can be achieved by SSH agant forwarding. First ensure that your local SSH agent is running and has the required 
+This can be achieved by SSH agent forwarding. First ensure that your local SSH agent is running and has the required 
 keys added, 
 
 .. code:: bash 
