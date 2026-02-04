@@ -31,6 +31,15 @@ the ADA support team at supportanalysis@stfc.ac.uk.
 Run AiiDAlab
 ------------
 
+Default AiiDAlab Installation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+On ADA (and potentially on other equivalent cloud systems) Aiidalab has been pre-configured and installed
+for users and included within the bundled software when a certain workspaces are created. This should provide
+a good starting point for anyone who wants to use AiiDAlab/AiiDA within their workflows and can simply be 
+started via the desktop entry within the app drawer. If this pre-configured version is either unavailable or
+not suitable for your specific workflows needs then more detailed startup methods are described below.
+
 Startup Script 
 ~~~~~~~~~~~~~~
 

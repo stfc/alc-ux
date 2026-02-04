@@ -32,7 +32,10 @@ Local Computer Instance
 
 The AiiDAlab application comes with access to the local computer as default. This is given the 
 name *localhost* and any locally installed software can be accessed by setting up a code 
-instance based on this computer instance. 
+instance based on this computer instance. This generally only includes software that has been 
+installed within the container running the AiiDAlab application, however through binding/mounting
+an external volume into the container additional binaries already present on the local machine could
+be made available within the container.
 
 
 Remote Computer Instance
@@ -41,7 +44,7 @@ Remote Computer Instance
 For more computationally expensive tasks it is recommended to setup a connection to a remote 
 HPC cluster where the scientific software will be hosted. AiiDA provides access to remote 
 computers via the SSH protocol using SSH key based authentication (*password based authentication
-will not work*). More information on how AiiDA comunicates via SSH can be found in the 
+is not fully supported*). More information on how AiiDA communicates via SSH can be found in the 
 `AiiDA documentaion <https://aiida.readthedocs.io/projects/aiida-core/en/stable/howto/ssh.html>`_
 
 From the AiiDAlab code setup page a remote computer instance can be setup as follows,
@@ -68,8 +71,13 @@ From the AiiDAlab code setup page a remote computer instance can be setup as fol
         :figclass: centre-fig 
 
 
-#.  Once the required confiuration has been filled in the *Setup computer* and *Test computer* 
+#.  Once the required configuration has been filled in the *Setup computer* and *Test computer* 
     buttons can be used to setup the AiiDA computer instance and test the SSH connection. 
+
+This assumes that you already have an SSH configuration for the remote machine setup i.e. SSH key access
+to the remote machine with the configuration available within the ``.ssh/`` directory in you home space.
+If this is not the case the *SSH connection* tab can help set this up and would need to be carries out before
+setting up the computer instance.
 
 
 Setup Code Instance
