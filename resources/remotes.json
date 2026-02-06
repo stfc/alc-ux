@@ -45,8 +45,7 @@
                                 "type": "list",
                                 "options": [
                                     "scarf",
-                                    "devel",
-                                    "gpu"
+                                    "devel"
                                 ],
                                 "key_display": "Slurm Partition"
                             },
