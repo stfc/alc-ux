@@ -27,3 +27,4 @@ page on GitHub or to benjamin.speake@stfc.ac.uk.
    workflow_implementation
    containers
    startup_and_deployment
+   resource_setup

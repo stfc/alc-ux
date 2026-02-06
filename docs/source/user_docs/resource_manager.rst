@@ -1,4 +1,4 @@
-.. _resource_management:
+.. _custom_resource_management:
 
 AiiDAlab Code Setup
 ===================
@@ -47,6 +47,19 @@ computers via the SSH protocol using SSH key based authentication (*password bas
 is not fully supported*). More information on how AiiDA communicates via SSH can be found in the 
 `AiiDA documentaion <https://aiida.readthedocs.io/projects/aiida-core/en/stable/howto/ssh.html>`_
 
+Pre-Configured Connections
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The UI provides several pre-configured computer/code setups via the drop-down menu. These can be
+quickly configured to provide access to running codes on common remote HPC resources. The database
+from which these codes are drawn can be configured by developers when creating AiiDAlab applications.
+
+Custom Configurations
+~~~~~~~~~~~~~~~~~~~~~
+
+Setup Computer Instance
++++++++++++++++++++++++
+
 From the AiiDAlab code setup page a remote computer instance can be setup as follows,
 
 #.  First ensure that the check box for step by step resource setup is checked which will expand the
@@ -74,27 +87,48 @@ From the AiiDAlab code setup page a remote computer instance can be setup as fol
 #.  Once the required configuration has been filled in the *Setup computer* and *Test computer* 
     buttons can be used to setup the AiiDA computer instance and test the SSH connection. 
 
-This assumes that you already have an SSH configuration for the remote machine setup i.e. SSH key access
+The input fields in the UI closely follow the keys required by the AiiDA command line configuration
+process documented `here <https://aiida.readthedocs.io/projects/aiida-core/en/stable/howto/run_codes.html#how-to-set-up-a-computer>`_\.
+A more detailed description of each field is given below;
+
+- **Computer name** -> The name of the computer displayed throughout UI components.
+- **Hostname** -> The hostname address for the remote HPC machine.
+- **Computer description** -> A detailed description of the compute resource.
+- **AiiDA working directory** -> The location on the remote machine to store job related files.
+- **Mpirun command** -> How to run MPI based parallel jobs on the remote machine.
+- **Memory per node** -> Maximum memory available per compute node.
+- **#CPU(s) per node** -> Maximum number of cpu cores per compute node.
+- **Transport type** -> AiiDA defined connection method.
+- **Min. connection intervals** -> Minimum interval to wait between connections to the remote host.
+- **Scheduler** -> The job submission and control system employed on the remote machine.
+- **Shebang** -> Interpreter identifier to be placed at the start of all submission scripts.
+- **Use login shell** -> If checked AiiDA will run user login scripts when submitting jobs.
+- **Use double quotes to escape...** -> Uses "" to wrap commands in the submission script.
+- **prepend_text** -> Additional text to be added to the submission script before the job's run command.
+- **append_text** -> Additional text to be added tot he submission script after the job's run command.
+
+
+This setup process assumes that you already have an SSH configuration for the remote machine setup i.e. SSH key access
 to the remote machine with the configuration available within the ``.ssh/`` directory in you home space.
 If this is not the case the *SSH connection* tab can help set this up and would need to be carries out before
 setting up the computer instance.
 
 
 Setup Code Instance
--------------------
++++++++++++++++++++
 
 The **Code** tab enables the creation of AiiDA code instances which utilise AiiDA plugin to call 
 external software packages for computation. More details about how these work within the AiiDA 
 workflow can be found `here <https://aiida.readthedocs.io/projects/aiida-core/en/stable/howto/run_codes.html#how-to-create-a-code>`_\.
 To setup a AiiDA code instance you need to provide the following components:
 
-- *Label* - A label to be given to the code instance.
-- *Computer* - The AiiDA computer instance the code will run on.
-- *Plugin* - The associated AiiDA plugin for the software.
-- *Description* - A more detailed description to be associated with the code instance.
-- *Path to executable* - The absolute path to the executable for the external software.
-- *Prepend text* - Any commands which need to be run before the executable such as module or environment loading.
-- *Append text* - Any command which need to be run after the executable.
+- **Label** - A label to be given to the code instance.
+- **Computer** - The AiiDA computer instance the code will run on.
+- **Plugin** - The associated AiiDA plugin for the software.
+- **Description** - A more detailed description to be associated with the code instance.
+- **Path to executable** - The absolute path to the executable for the external software.
+- **Prepend text** - Any commands which need to be run before the executable such as module or environment loading.
+- **Append text** - Any command which need to be run after the executable.
 
 Once setup the code should appear in the list of *Available Codes* at the bottom of the page. A 
 refresh might be required for it to show. An example for setting up a code instance to run the 

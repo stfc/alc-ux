@@ -1,0 +1,77 @@
+{
+    "ui1.scarf.rl.ac.uk": {
+        "scarf": {
+            "computer": {
+                "computer-configure": {
+                    "username": "{{ username }}",
+                    "safe_interval": 10,
+                    "key_policy": "AutoAddPolicy",
+                    "metadata": {
+                        "tooltip": "\u003Cp\u003E\n    Setup up the SSH connection.\n\u003C/p\u003E\n",
+                        "ssh_auth": "2FA",
+                        "template_variables": {
+                            "username": {
+                                "description": "The username to use for the SSH connection",
+                                "type": "text",
+                                "key_display": "SSH username"
+                            }
+                        }
+                    }
+                },
+                "computer-setup": {
+                    "label": "{{ label }}",
+                    "hostname": "ui1.scarf.rl.ac.uk",
+                    "description": "SCARF compute cluster provided by STFC",
+                    "transport": "core.ssh",
+                    "scheduler": "core.slurm",
+                    "work_dir": "{{ work_dir }}",
+                    "shebang": "#!/bin/bash",
+                    "mpirun_command": "mpirun -n {tot_num_mpiprocs}",
+                    "mpiprocs_per_machine": 32,
+                    "prepend_text": "#SBATCH --partition={{ slurm_partition }}\n",
+                    "append_text": "",
+                    "metadata": {
+                        "tooltip": "\u003Cp\u003E\n    \u003Ca href=\"https://www.scarf.rl.ac.uk/index.html\" target=\"_blank\"\u003ESCARF\u003C/a\u003E supercomputer at STFC (UKRI).",
+                        "template_variables": {
+                            "label": {
+                                "default": "scarf",
+                                "description": "A short name to identify the computer",
+                                "type": "text",
+                                "key_display": "Computer Label"
+                            },
+                            "slurm_partition": {
+                                "default": "scarf",
+                                "description": "The slurm partition to submit jobs to",
+                                "type": "list",
+                                "options": [
+                                    "scarf",
+                                    "devel"
+                                ],
+                                "key_display": "Slurm Partition"
+                            },
+                            "work_dir": {
+                                "default": "/home/{VOL}/{USER}/aiida_run",
+                                "description": "The directory on SCARF where job files will be stored.",
+                                "type": "text",
+                                "key_display": "Work Directory"
+                            }
+                        }
+                    }
+                }
+            },
+            "codes": {
+                "ChemShell": {
+                    "label": "ChemShell (SCARF)",
+                    "description": "ChemShell 25.0.1 (parallel) compiled for SCARF",
+                    "filepath_executable": "chemsh.x",
+                    "default_calc_job_plugin": "chemshell",
+                    "with_mpi": true,
+                    "prepend_text": "module load contrib/chemshell/25.0.1-intel",
+                    "append_text": "",
+                    "metadata": {}
+                }
+            }
+        },
+        "default": "scarf"
+    }
+}

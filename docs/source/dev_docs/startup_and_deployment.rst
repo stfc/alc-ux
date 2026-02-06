@@ -20,7 +20,7 @@ Container Image
 
 The core component of an AiiDAlab deployment is which container image to use at runtime which 
 will determine what additional components and software is available to the user on top of the 
-core AiiDAlab home application and AiiDA configuration. The section :ref:`_developing_containers`
+core AiiDAlab home application and AiiDA configuration. The section :ref:`developing_containers`
 covers how to create custom docker images for deploying additional components alongside the core 
 AiiDAlab tools. When creating a startup script, this has to correctly point to whichever image 
 you wish to expose to users for their workflows.  Whilst available components and applications 
