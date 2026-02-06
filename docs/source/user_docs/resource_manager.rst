@@ -1,4 +1,4 @@
-.. _resource_management:
+.. _custom_resource_management:
 
 AiiDAlab Code Setup
 ===================
