@@ -35,7 +35,11 @@ name *localhost* and any locally installed software can be accessed by setting u
 instance based on this computer instance. This generally only includes software that has been 
 installed within the container running the AiiDAlab application, however through binding/mounting
 an external volume into the container additional binaries already present on the local machine could
-be made available within the container.
+be made available within the container. For example, with typical AiiDAlab deployments on ADA cloud
+workspaces the users home directory is directly available within the container and therefore, 
+any software installed within the home space would also be available within the container as 
+long as it doesn't have complex system dependencies which may not be available through the container 
+environment. 
 
 
 Remote Computer Instance
@@ -45,14 +49,17 @@ For more computationally expensive tasks it is recommended to setup a connection
 HPC cluster where the scientific software will be hosted. AiiDA provides access to remote 
 computers via the SSH protocol using SSH key based authentication (*password based authentication
 is not fully supported*). More information on how AiiDA communicates via SSH can be found in the 
-`AiiDA documentaion <https://aiida.readthedocs.io/projects/aiida-core/en/stable/howto/ssh.html>`_
+`AiiDA documentaion <https://aiida.readthedocs.io/projects/aiida-core/en/stable/howto/ssh.html>`_\.
 
 Pre-Configured Connections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The UI provides several pre-configured computer/code setups via the drop-down menu. These can be
 quickly configured to provide access to running codes on common remote HPC resources. The database
-from which these codes are drawn can be configured by developers when creating AiiDAlab applications.
+from which these codes are drawn can be configured by developers when creating AiiDAlab applications
+or manually edited if using the interface through the ChemShell AiiDAlab application. By default STFC
+developed plugins should link to the STFC resources repository which includes pre-configurations for 
+common codes on compute resources such as SCARF. 
 
 Custom Configurations
 ~~~~~~~~~~~~~~~~~~~~~

@@ -15,7 +15,7 @@ well as how to deploy these to users either locally or via a cloud host such as 
 included are example scripts and an example setup for a basic AiiDAlab plugin application. 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    user_docs/index 
    dev_docs/index 

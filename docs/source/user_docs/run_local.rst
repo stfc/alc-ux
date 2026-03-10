@@ -50,8 +50,16 @@ at start-up,
 - ``AIIDA_USER_LAST_NAME``: User's second name 
 - ``AIIDA_USER_INSTITUTION``: Institution associated with the user 
 
-These can be passed to the container by using the ``--env`` command line option, or they can all be written to 
-a file and read in by the ``--env-file`` option.
+These can be passed to the container by using the ``--env`` command line option,
+
+.. code:: bash 
+
+    docker run -it --rm -p 8888:8888 --env AIIDA_PROFILE_NAME=username aiidalab/full-stack:latest 
+
+
+or they can all be written to a file and read in by the ``--env-file`` option. See the 
+`docker documentation <https://docs.docker.com/compose/how-tos/environment-variables/set-environment-variables/>`_ 
+for more details on how to pass environment variables into a container. 
 
 There are certain circumstances where a new profile is not required, either if you want to manually setup 
 one from within the container or if you are binding in an existing AiiDA configuration folder containing an 
