@@ -38,19 +38,25 @@ on how to configure the profile further run,
 
 
 This is the recommended way to run AiiDAlab locally particularly for users who are not familiar with 
-managing docker containers directly. 
+managing docker containers directly. Most of the remaining sections on this page deal with manually
+configuring AiiDAlab startup direcly via the container engine however, sections such as 
+:ref:`data_persistence_within_the_container` and :ref:`software_within_the_container` are still 
+relevant when running via AiiDAlab launch. 
+
 
 Start-up Script 
 ---------------
 
 For convenience a start-up script is provided within this repository, which will handle the container start up, 
-AiiDA user profile generation and ssh agent forwarding using either apptainer or docker. This can be found `here <https://github.com/stfc/alc-ux/tree/main/scripts>`_
+AiiDA user profile generation and ssh agent forwarding using either apptainer or docker. This is an alternative 
+but less featured option than AiiDAlab-launch but demonstrates how the deployment of AiiDAlab can be configured 
+for container engines other than Docker. It is also how AiiDAlab has been deployed to cloud platforms such as 
+ADA, see :ref:`cloud_deployment_guide`\. This example script can be found `here <https://github.com/stfc/alc-ux/tree/main/scripts>`_
 along with guidance on how it can be customised at runtime. Note that by default the script will mount the users 
 entire home space into the container, this will bring any existing AiiDA profiles/databases into the container however, 
 it will also create two new directories (if they don't already exist) called ``apps`` and ``work`` within the users 
 home directory. 
 
-If you wish to manually configure the AiiDAlab start-up then follow the remaining guides on this page.
 
 Running The Container
 ---------------------
@@ -103,6 +109,8 @@ one from within the container or if you are binding in an existing AiiDA configu
 existing user profile. In this instance you would pass in the ``--env SETUP_DEFAULT_AIIDA_PROFILE=false`` 
 variable, which will disable the creation of a new profile on startup. 
 
+.. _data_persistence_within_the_container:
+
 Data Persistence 
 ----------------
 
@@ -123,6 +131,45 @@ instances, not just the files produced under the work directory
 .. code:: bash 
 
     docker run -it --rm -p 8888:8888 -v /path/to/local/folder:/home/jovyan aiidalab/full-stack:latest 
+
+
+.. _software_within_the_container:
+
+Making Software Available Within AiiDAlab
+-----------------------------------------
+
+Since AiiDAlab runs within a container, much like with the data persistence configuration, it is 
+up to users to enable local software within the container. By default Docker cannot see anything 
+on the local machine unless it is specifically forwarded into the container. There are three main 
+ways for accessing software to run on the local machine:
+
+- Run the container via an image which comes pre-configured with the required software stack.
+- Install the software directly into the container's local home environment.
+- Mount existing software into the container via bind mounts.
+
+The simplest option is to choose a base docker image which has the required local software pre-configure,
+many of these exist for software such as `Quantum ESPRESSO <https://hub.docker.com/r/aiidalab/qe>`_\ 
+or `ChemShell <https://github.com/stfc/aiidalab-chemshell/pkgs/container/aiidalab-chemshell%2Ffull>`_\. 
+
+
+Installing software directly within the container is the second most recommended option for enabling 
+local software stacks within AiiDAlab. This can be achieved either through the AiiDAlab plugin manager
+which can be accessed via the UI, or through the command line to manually install software which 
+can also be accessed through the main AiiDAlab UI. Many plugins (particularly python focused software)
+bundles the required executables with their respective AiiDAlab plugin which can be installed via the
+plugin manager, Quantum ESPRESSO being one of these examples. These plugins will install all required 
+components for both their AiiDAlab UI plugin, AiiDA plugin and core software stack whilst also 
+pre-configuring a local AiiDA code instance for the given app which can then be accessed through the
+AiiDAlab UI to run the software. If choosing to manually install software you must also manually configure
+the AiiDA code instance and restart the AiiDA daemon to enable access to the installed software through
+the AiiDAlab UI. Examples of how to do this can be found here: :ref:`custom_resource_management`\. 
+Of particular note is that most AiiDAlab containers use `mamba <https://mamba.readthedocs.io/en/latest/user_guide/mamba.html>`_
+to manage python packages within the container and therefore, the user can use both ``mamba`` and ``pip``
+to install software where applicable.
+
+The final and potentially most complex option is to mount existing software into the container. This is
+not recommended for those that aren't highly familiar with running hybrid containerised applications as it can
+cause dependency and security issues if not handled correctly. 
 
 
 SSH Connections
