@@ -39,7 +39,7 @@ on how to configure the profile further run,
 
 This is the recommended way to run AiiDAlab locally particularly for users who are not familiar with 
 managing docker containers directly. Most of the remaining sections on this page deal with manually
-configuring AiiDAlab startup direcly via the container engine however, sections such as 
+configuring AiiDAlab startup directly via the container engine however, sections such as 
 :ref:`data_persistence_within_the_container` and :ref:`software_within_the_container` are still 
 relevant when running via AiiDAlab launch. 
 
