@@ -94,6 +94,8 @@ defining the *model* layer. The controller layer is an optional additional layer
 controll over that application that doesn't directly interact with any of the stored data. 
 
 
+.. _widget_ui_components:
+
 Widgets
 ~~~~~~~
 
@@ -113,6 +115,24 @@ Each widget will expose a data value, typically named ``value`` if using IPywidg
 the user's input and which can be linked to internal data variables to dictate functionality within
 the AiiDAlab application using the ``link``, ``dlink`` or ``observe`` functions from the
 **traitlets** module.
+
+Common IPyWidgets Widgets 
+#########################
+
+- **CheckBox**: Provides a boolean based (on/off) check box.
+- **Text**: Provides a text input field.
+- **Dropdown**: Provides a drop down selection box with customisable options.
+- **Button**: Provides a customisable UI button.
+- **HTML**: Provides a method for raw HTML rendering within the UI commonly used for formatted text and images.
+- **VBox/HBox**: Provides layout options for arranging other widgets.
+
+
+Common AiiDAlab Custom Widgets
+##############################
+
+- **WizardAppWidget**: Provides a step-by-step wizard UI layout.
+- **WizardAppWidgetStep**: Provides a customised component to create a step in a *WizardAppWidget*.
+- **StructureDataViewer**: Provides a visualiser for chemical structures.
 
 
 AiiDA Integration

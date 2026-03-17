@@ -9,19 +9,22 @@ software applications to perform a given task. To define the AiiDA workflow (par
 application plugin) the developer will have specified the required inputs and outputs pertinent
 to that workflow, which are often a simplified entry point compared to running the workflow directly
 through the software package itself. This presents a logical foundation for building the wizard style
-step-by-step UI's that are seen through AiiDAlab, allowing a user to systematically build up all the
+step-by-step UI's that are seen throughout AiiDAlab, allowing a user to systematically build up all the
 required inputs for the workflow in logical steps, then visualise the necessary results.
 
 The example AiiDAlab plugin code provided within this repository contains an example for how to create a UI
 for a simplified geometry optimisation workflow utilising the ChemShell multi-scale chemical modelling
 software package, it will provide a basis for the following guides. A more complete and complex expansion 
-on this example, specifically for ChemShell can be found at
+on this example, specifically for ChemShell, can be found at
 `aiidalab-chemshell <https://github.com/stfc/aiidalab-chemshell>`_\. 
 
 Since this is a UI interface which
 will be heavily based on the specific software workflow being carried out, the following guide may not be
 appropriate for all design cases. However, it presents a good starting point and a good general structure
-for computation materials modelling workflows.
+for computation materials modelling workflows. Details of individual widgets and their implementation
+is not provided here, see :ref:`widget_ui_components` for more information on specific commonly
+used widgets and the `example plugin <https://github.com/stfc/alc-ux>`_ for how they can be implemented
+and used within an AiiDAlab plugin.
 
 Breaking Down Workflows Into Simple Steps
 -----------------------------------------
@@ -61,7 +64,7 @@ users inputs as they move through the remaining inputs.
 
 .. figure:: ../../../images/workflow_wizard_step.png
     :width: 90% 
-    :alt: Workflow Wizard Step Example
+    :alt: Workflow Wizard Step Example 
     :figclass: centre-fig 
 
 Code example: `workflow.py <https://github.com/stfc/alc-ux/blob/main/src/aiidalab_alc/workflow.py>`_
@@ -98,6 +101,7 @@ be visualised within the wizard's *view*.
     :figclass: centre-fig
 
 Code example: `results.py <https://github.com/stfc/alc-ux/blob/main/src/aiidalab_alc/results.py>`_
+
 
 Process Configuration and Submission
 ------------------------------------
