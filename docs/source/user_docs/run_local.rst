@@ -1,7 +1,44 @@
-.. _loca_aiidalab:
+.. _local_aiidalab:
 
 Running AiiDAlab
 ================
+
+Since AiiDAlab is a jupytper notebook environment it is recommended to run AiiDAlab through a container engine 
+such as Docker or Apptainer. Many different docker images exist for different configurations of AiiDAlab 
+with various software pre-configured within the container's environment or a simple base container can be 
+used for you to configure as you utilise AiiDAlab. 
+
+AiiDAlab Launch
+---------------
+
+AiiDAlab provides a python based utility for managing and running these containerised environments called 
+`AiiDAlab Launch <https://aiidalab.readthedocs.io/en/latest/usage/access/launch.html>` which provides a 
+simplified command line interface to run AiiDAlab without the user needing to understand and configure 
+docker containers directly. It uses docker as the backend container engine and can be installed via ``pip``
+(or ``pipx`` if you do not have a locally configured python installation), 
+
+.. code:: bash 
+
+    pip install aiidalab-launch
+
+It facilitates multiple AiiDA profiles with various home directories and ports for more complex AiiDAlab 
+configurations. To create a new profile and start the AiiDAlab interaface run, 
+
+.. code:: bash
+
+    aiidalab-launch profile add --image aiidalab/full-stack:latest aiidalab
+    aiidalab-launch start -p aiidalab
+
+This will produce the required URL to open the AiiDAlab interface within a browser. To see more information 
+on how to configure the profile further run, 
+
+.. code:: bash 
+
+    aiidalab-launch profile --help
+
+
+This is the recommended way to run AiiDAlab locally particularly for users who are not familiar with 
+managing docker containers directly. 
 
 Start-up Script 
 ---------------
