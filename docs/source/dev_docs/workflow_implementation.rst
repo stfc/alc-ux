@@ -133,3 +133,32 @@ and adaptability when building upon the existing application.
 Examples of how this could be
 implemented can be seen in `aiidalab-chemshell <https://github.com/stfc/aiidalab-chemshell>`_ or
 `aiidalab-qe <https://github.com/aiidalab/aiidalab-qe>`_\.
+
+
+Working With WorkGraphs
+-----------------------
+
+AiiDA provides an alternative method for connecting together individual AiiDA jobs in the form 
+of `WorkGraphs <https://aiida-workgraph.readthedocs.io/en/latest/>`_ which additionally provides 
+an alternative UI for creating complex workflows with AiiDA. This option is particularly aimed at
+creating custom multi-step workflows which are not directly exposed within the underlying AiiDA
+plugins, with additional convenience of being able to easily link together different AiiDA plugins
+for different steps of the workflow. They provide both python scripting and UI based editing tools
+for linking together different AiiDA processes tracking how outputs from one process can be directly
+used as inputs for others, with additional support for complex conditional logic. The UI presents a 
+convenient flow-chart style visualisation and management of these complex workflows whilst python scripts
+can enable advanced and increasingly complex workflow structure and features. 
+
+Detailed documentation for how to create and use AiiDA 
+WorkGraphs and their associated tools is beyond the scope of this document however, 
+detailed guides on how to use WorkGraphs can be found `here <https://aiida-workgraph.readthedocs.io/en/latest/>`_\.
+
+WorkGraphs can be integrated with AiiDAlab in a similar fashion as WorkChains, either via direct conversion
+to a WorkChain, or via direct submission through the AiiDAlab plugin using the ``WorkGraphEngine`` from the 
+``aiida_workgraph`` python package. See the 
+`AiiDA WorkGraph documentation <https://aiida-workgraph.readthedocs.io/en/latest/howto/autogen/interoperate_with_aiida_core.html#>`_ 
+for more details on the interoperability of WorkGraphs and WorkChains. 
+
+Additionally, since they both run on the same core concepts, i.e. the underlying AiiDA engine, a user
+can create WorkChains interactively outside the AiiDAlab plugin and still include and visualise the
+processes and outputs within the AiiDAlab UI. 
