@@ -9,19 +9,22 @@ software applications to perform a given task. To define the AiiDA workflow (par
 application plugin) the developer will have specified the required inputs and outputs pertinent
 to that workflow, which are often a simplified entry point compared to running the workflow directly
 through the software package itself. This presents a logical foundation for building the wizard style
-step-by-step UI's that are seen through AiiDAlab, allowing a user to systematically build up all the
+step-by-step UI's that are seen throughout AiiDAlab, allowing a user to systematically build up all the
 required inputs for the workflow in logical steps, then visualise the necessary results.
 
 The example AiiDAlab plugin code provided within this repository contains an example for how to create a UI
 for a simplified geometry optimisation workflow utilising the ChemShell multi-scale chemical modelling
 software package, it will provide a basis for the following guides. A more complete and complex expansion 
-on this example, specifically for ChemShell can be found at
+on this example, specifically for ChemShell, can be found at
 `aiidalab-chemshell <https://github.com/stfc/aiidalab-chemshell>`_\. 
 
 Since this is a UI interface which
 will be heavily based on the specific software workflow being carried out, the following guide may not be
 appropriate for all design cases. However, it presents a good starting point and a good general structure
-for computation materials modelling workflows.
+for computation materials modelling workflows. Details of individual widgets and their implementation
+is not provided here, see :ref:`widget_ui_components` for more information on specific commonly
+used widgets and the `example plugin <https://github.com/stfc/alc-ux>`_ for how they can be implemented
+and used within an AiiDAlab plugin.
 
 Breaking Down Workflows Into Simple Steps
 -----------------------------------------
@@ -61,7 +64,7 @@ users inputs as they move through the remaining inputs.
 
 .. figure:: ../../../images/workflow_wizard_step.png
     :width: 90% 
-    :alt: Workflow Wizard Step Example
+    :alt: Workflow Wizard Step Example 
     :figclass: centre-fig 
 
 Code example: `workflow.py <https://github.com/stfc/alc-ux/blob/main/src/aiidalab_alc/workflow.py>`_
@@ -99,6 +102,7 @@ be visualised within the wizard's *view*.
 
 Code example: `results.py <https://github.com/stfc/alc-ux/blob/main/src/aiidalab_alc/results.py>`_
 
+
 Process Configuration and Submission
 ------------------------------------
 
@@ -133,3 +137,32 @@ and adaptability when building upon the existing application.
 Examples of how this could be
 implemented can be seen in `aiidalab-chemshell <https://github.com/stfc/aiidalab-chemshell>`_ or
 `aiidalab-qe <https://github.com/aiidalab/aiidalab-qe>`_\.
+
+
+Working With WorkGraphs
+-----------------------
+
+AiiDA provides an alternative method for connecting together individual AiiDA jobs in the form 
+of `WorkGraphs <https://aiida-workgraph.readthedocs.io/en/latest/>`_ which additionally provides 
+an alternative UI for creating complex workflows with AiiDA. This option is particularly aimed at
+creating custom multi-step workflows which are not directly exposed within the underlying AiiDA
+plugins, with additional convenience of being able to easily link together different AiiDA plugins
+for different steps of the workflow. They provide both python scripting and UI based editing tools
+for linking together different AiiDA processes tracking how outputs from one process can be directly
+used as inputs for others, with additional support for complex conditional logic. The UI presents a 
+convenient flow-chart style visualisation and management of these complex workflows whilst python scripts
+can enable advanced and increasingly complex workflow structure and features. 
+
+Detailed documentation for how to create and use AiiDA 
+WorkGraphs and their associated tools is beyond the scope of this document however, 
+detailed guides on how to use WorkGraphs can be found `here <https://aiida-workgraph.readthedocs.io/en/latest/>`_\.
+
+WorkGraphs can be integrated with AiiDAlab in a similar fashion as WorkChains, either via direct conversion
+to a WorkChain, or via direct submission through the AiiDAlab plugin using the ``WorkGraphEngine`` from the 
+``aiida_workgraph`` python package. See the 
+`AiiDA WorkGraph documentation <https://aiida-workgraph.readthedocs.io/en/latest/howto/autogen/interoperate_with_aiida_core.html#>`_ 
+for more details on the interoperability of WorkGraphs and WorkChains. 
+
+Additionally, since they both run on the same core concepts, i.e. the underlying AiiDA engine, a user
+can create WorkChains interactively outside the AiiDAlab plugin and still include and visualise the
+processes and outputs within the AiiDAlab UI. 
