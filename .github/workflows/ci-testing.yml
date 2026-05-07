@@ -29,21 +29,22 @@ jobs:
       - name: Install the package & requirements 
         run: |
           python -m pip install --upgrade pip
+          cd plugin_template
           pip install .[dev]
 
       - name: Run the test suite \w coverage 
         if: contains(matrix.python-version, '3.12')
-        run: pytest --cov=aiidalab_alc --cov-report xml:coverage.xml
+        run: cd plugin_template && pytest --cov=aiidalab_alc --cov-report xml:coverage.xml
       
       - name: Run the test suite without coverage 
         if:  ${{ !contains(matrix.python-version, '3.12') }}
-        run: pytest 
+        run: cd plugin_template && pytest 
 
       - name: Report coverage to Coveralls 
         if: contains(matrix.python-version, '3.12')
         uses: coverallsapp/github-action@v2 
         with: 
-          file: coverage.xml 
+          file: plugin_template/coverage.xml 
           base-path: aiidalab_alc 
 
   style-check:
@@ -61,9 +62,9 @@ jobs:
         run: pip install ruff 
 
       - name: Run the linter 
-        run: ruff check 
+        run: cd plugin_template && ruff check 
 
       - name: Run the format checker 
-        run: ruff format --check 
+        run: cd plugin_template && ruff format --check 
 
       
