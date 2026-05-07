@@ -52,7 +52,7 @@ user moves through the remaining wizards.
     :alt: Structure Wizard Step Example
     :figclass: centre-fig 
 
-Code example: `structure.py <https://github.com/stfc/alc-ux/blob/main/src/aiidalab_alc/structure.py>`_
+Code example: `structure.py <https://github.com/stfc/alc-ux/blob/main/plugin_template/src/aiidalab_alc/structure.py>`_
 
 Workflow Input
 ~~~~~~~~~~~~~~
@@ -67,7 +67,7 @@ users inputs as they move through the remaining inputs.
     :alt: Workflow Wizard Step Example 
     :figclass: centre-fig 
 
-Code example: `workflow.py <https://github.com/stfc/alc-ux/blob/main/src/aiidalab_alc/workflow.py>`_
+Code example: `workflow.py <https://github.com/stfc/alc-ux/blob/main/plugin_template/src/aiidalab_alc/workflow.py>`_
 
 Code Setup
 ~~~~~~~~~~
@@ -86,7 +86,7 @@ pressed the *model* side of the app will collate the input variables provided an
     :alt: Code Setup Wizard Step Example
     :figclass: centre-fig 
 
-Code example: `resources.py <https://github.com/stfc/alc-ux/blob/main/src/aiidalab_alc/resources.py>`_
+Code example: `resources.py <https://github.com/stfc/alc-ux/blob/main/plugin_template/src/aiidalab_alc/resources.py>`_
 
 Results
 ~~~~~~~
@@ -100,7 +100,7 @@ be visualised within the wizard's *view*.
     :alt: Code Setup Wizard Step Example
     :figclass: centre-fig
 
-Code example: `results.py <https://github.com/stfc/alc-ux/blob/main/src/aiidalab_alc/results.py>`_
+Code example: `results.py <https://github.com/stfc/alc-ux/blob/main/plugin_template/src/aiidalab_alc/results.py>`_
 
 
 Process Configuration and Submission
@@ -115,7 +115,7 @@ defines all the individual *model* components and provides the *glue* that links
 once the process is ready for submission. 
 
 There are two methods for **submitting the AiiDA process** using the collated inputs. The first is
-shown in `process.py <https://github.com/stfc/alc-ux/blob/main/src/aiidalab_alc/results.py>`_ 
+shown in `process.py <https://github.com/stfc/alc-ux/blob/main/plugin_template/src/aiidalab_alc/results.py>`_ 
 which uses the AiiDA builder object for the CalcJob/WorkChain process to assign the required inputs
 and then uses the submit function to submit the process and return a reference to the generated 
 process noe. The other is to simply generate a python dictionary containing all the results and 
