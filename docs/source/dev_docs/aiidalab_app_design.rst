@@ -28,7 +28,8 @@ Using The ALC-UX Template Project
 
 As an alternative to starting from scratch or using the simplified setup from the Cookiecutter, it
 is recommended that developers start from the provided template project within this 
-`repository <https://github.com/stfc/alc-ux>`_\. It has the following general file structre:
+`repository <https://github.com/stfc/alc-ux>`_ in the ``plugin_template`` directory. It has the 
+following general file structure:
 
 ::
 
@@ -52,8 +53,11 @@ is recommended that developers start from the provided template project within t
     start.py                    # Start banner used on the AiiDAlab home page
 
 
-This template provides everything required to create a functional AiiDAlab plugin application that
-uses the ChemShell AiiDA plugin as an example. It contains a workflow example for running a geometry
+This template provides everything required to create a functional AiiDAlab plugin application including required metadata 
+and a functional UI example that used the ChemShell AiiDA plugin as an example. It can be mounted/copied into the ``apps`` 
+folder for an AiiDAlab container instance and will be correctly discovered and displayed by AiiDAlab. 
+
+It contains a workflow example for running a geometry
 optimisation with the ChemShell plugin enabling the user to setup initial structure, input parameters and
 computational resources in the typical AiiDAlab wizard style common amongst AiiDAlab plugins. It provides
 core building blocks for the wizard UI alongside the *M-V-C* paradigm for correct separation of concerns.
