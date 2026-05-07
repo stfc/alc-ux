@@ -21,8 +21,44 @@ This will generate the basic outline for the application including the required 
 this will also be placed within the specified ``apps`` directory that AiiDAlab searches for
 plugins. This is often a good starting point when developing new applications as it removes
 the need to re-create boiler plate plugin structure however, is not necessary and all 
-components can be configured manually.
+components can be configured manually or from a more complete template example.
 
+Using The ALC-UX Template Project
+---------------------------------
+
+As an alternative to starting from scratch or using the simplified setup from the Cookiecutter, it
+is recommended that developers start from the provided template project within this 
+`repository <https://github.com/stfc/alc-ux>`_\. It has the following general file structre:
+
+::
+
+    aiidalab_alc/
+    ├── common/
+    │   ├── __init__.py         # Python requirement
+    │   ├── database.py         # Widget for handling AiiDA database queries 
+    │   ├── file_handling.py    # Widgets for handling file uploading
+    │   └── navigation.py       # Global app navigation buttons
+    ├── __init__.py             # Required for python module initialisation
+    ├── main.py                 # Main UI application
+    ├── process.py              # Creates the link to the AiiDA plugin
+    ├── resources.py            # Manage computational resources inputs
+    ├── results.py              # Visualise process results
+    ├── structure.py            # Input/visualise chemical structure
+    ├── utils.py                # Commonly used functions
+    └── workflow.py             # Setup the input parameters for ChemShell
+    main.ipynb                  # The main application UI as a jupyter notebook
+    pyproject.toml              # Additional information for python package building
+    setup.cfg                   # Defines the required project metadata
+    start.py                    # Start banner used on the AiiDAlab home page
+
+
+This template provides everything required to create a functional AiiDAlab plugin application that
+uses the ChemShell AiiDA plugin as an example. It contains a workflow example for running a geometry
+optimisation with the ChemShell plugin enabling the user to setup initial structure, input parameters and
+computational resources in the typical AiiDAlab wizard style common amongst AiiDAlab plugins. It provides
+core building blocks for the wizard UI alongside the *M-V-C* paradigm for correct separation of concerns.
+It also includes examples for several different widgets components which can be adapted and utilised by your
+application. 
 
 Core Requirements
 -----------------
