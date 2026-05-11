@@ -79,6 +79,8 @@ One such image is provided in this repository which contains the AiiDAlab
 ALC application and its dependencies. This image is hosted at 
 `<ghcr.io/stfc/alc-ux/full:latest>`_ and can be run locally in the same manner. 
 
+.. _aiida_user_profile_setup:
+
 AiiDA User Profile Setup
 ------------------------
 
@@ -106,8 +108,14 @@ for more details on how to pass environment variables into a container.
 
 There are certain circumstances where a new profile is not required, either if you want to manually setup 
 one from within the container or if you are binding in an existing AiiDA configuration folder containing an 
-existing user profile. In this instance you would pass in the ``--env SETUP_DEFAULT_AIIDA_PROFILE=false`` 
+existing user profile created in a previous instance of the container. 
+In this instance you would pass in the ``--env SETUP_DEFAULT_AIIDA_PROFILE=false`` 
 variable, which will disable the creation of a new profile on startup. 
+
+.. note:: 
+    At present it is not possible to load a locally created AiiDA profile into an AiiDAlab based 
+    container. Instances created within a container can be re-used but they must have been initially
+    created by an instance of an AiiDAlab container. 
 
 .. _data_persistence_within_the_container:
 

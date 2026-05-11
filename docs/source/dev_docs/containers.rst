@@ -31,7 +31,7 @@ run the following,
 
 To enable an AiiDAlab application within the container it must be installed in the 
 ``/home/jovyan/apps/`` directory. This can be achieved by either installing using the 
-in build terminal page or via binding a local instance of the development code into the 
+in-built terminal page or via binding a local instance of the development code into the 
 container at initialisation, 
 
 .. code:: bash 
@@ -43,11 +43,12 @@ container at initialisation,
 
 If using the local bind method this allows editing of the application in a chosen local code editor
 and all changes will be updated live within the container. For more complex apps this live editing 
-may also require installing the project within the container as an editable python project,
+may also require installing the project within the container as an editable python project by running
+the following from a terminal within the container,
 
 .. code:: bash
 
-    cd /home/jovyan/myApp
+    cd /home/jovyan/apps/myApp
     pip install --no-user  -e . 
 
 Once these two steps have been completed any local changes to the plugin will be dynamically updated within
@@ -65,7 +66,13 @@ image but using 3.10 as the base python version. This can be accessed at
 Local AiiDA Instances
 ~~~~~~~~~~~~~~~~~~~~~
 
-It is currently not possible to include 
+It is currently not possible to include local instances of an AiiDA profile or database within a container
+running AiiDAlab, the container itself will need to create and manage all instances of AiiDA profiles and 
+databases. These can be configured using environment variables passed to the container at startup, see 
+:ref:`aiida_user_profile_setup` for more details. Once a profile and database has been setup by a AiiDAlab 
+based container these can be re-used by different container instances including different images as long
+as they are built of the same AiiDAlab foundation, they cannot be accessed by a local install of AiiDA 
+however.
 
 
 Docker Images For Distribution
