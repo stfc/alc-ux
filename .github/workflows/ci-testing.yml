@@ -29,8 +29,7 @@ jobs:
       - name: Install the package & requirements 
         run: |
           python -m pip install --upgrade pip
-          cd plugin_template
-          pip install .[dev]
+          (cd plugin_template && python -m pip install .[dev]) 
 
       - name: Run the test suite \w coverage 
         if: contains(matrix.python-version, '3.12')
