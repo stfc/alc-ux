@@ -6,9 +6,7 @@ import traitlets as tl
 from aiida.orm import SinglefileData, StructureData
 from alc_aiidalab_widgets.widgets.structure import StructureViewWidget
 from alc_aiidalab_widgets.widgets.file_handling import FileUploadWidget
-
-from aiidalab_alc.common.database import AiiDADatabaseWidget
-# from aiidalab_alc.common.file_handling import FileUploadWidget
+from alc_aiidalab_widgets.widgets.database import AiiDADatabaseQueryWidget
 
 
 class StructureStepModel(tl.HasTraits):
@@ -85,7 +83,7 @@ class StructureWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
 
         # AiiDA database
         self.tabs.set_title(1, "AiiDA Database")
-        self.database_widget = AiiDADatabaseWidget(
+        self.database_widget = AiiDADatabaseQueryWidget(
             title="AiiDA Database",
             query=[
                 SinglefileData,

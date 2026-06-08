@@ -5,7 +5,7 @@ import ipywidgets as ipw
 import traitlets as tl
 from aiida.orm import SinglefileData
 
-from aiidalab_alc.common.file_handling import FileUploadWidget
+from alc_aiidalab_widgets.widgets.file_handling import FileUploadWidget
 
 
 class ChemShellWorkflowModel(tl.HasTraits):
