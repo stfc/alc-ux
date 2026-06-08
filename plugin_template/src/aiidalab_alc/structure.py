@@ -1,13 +1,10 @@
 """Defines the model and view components for the structure setup stage."""
 
-from pathlib import Path
-from tempfile import NamedTemporaryFile
-
 import aiidalab_widgets_base as awb
-import ase
 import ipywidgets as ipw
 import traitlets as tl
 from aiida.orm import SinglefileData, StructureData
+from alc_aiidalab_widgets.widgets.structure import StructureViewWidget
 
 from aiidalab_alc.common.database import AiiDADatabaseWidget
 from aiidalab_alc.common.file_handling import FileUploadWidget
@@ -132,28 +129,12 @@ class StructureWizardStep(ipw.VBox, awb.WizardAppWidgetStep):
     def _on_file_upload(self, change=None):
         """When file upload button is pressed."""
         if self.model.has_file:
-            structure = self._get_ase_object_from_file(
+            self.viewer = StructureViewWidget()
+            self.viewer.assign_structure_from_file(
                 self.model.structure_file.filename, self.model.structure_file.content
             )
-            if structure:
-                self.viewer = awb.viewers.StructureDataViewer(structure=structure)
-            else:
-                self.viewer = ipw.HTML(
-                    "<p>Could not visualise structure from file...</p>"
-                )
             self._update_children()
         return
-
-    def _get_ase_object_from_file(self, fname: str, content: bytes) -> ase.Atoms | None:
-        suffix = "".join(Path(fname).suffixes)
-        with NamedTemporaryFile(suffix=suffix) as tmpf:
-            tmpf.write(content)
-            tmpf.flush()
-            try:
-                structure = ase.io.read(tmpf.name, index=":")[0]
-            except (KeyError, ase.io.formats.UnknownFileTypeError):
-                structure = None
-        return structure
 
     def submit_structure(self, _):
         """Submit the structure step."""
