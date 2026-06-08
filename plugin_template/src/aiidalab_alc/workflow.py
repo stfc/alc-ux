@@ -4,7 +4,6 @@ import aiidalab_widgets_base as awb
 import ipywidgets as ipw
 import traitlets as tl
 from aiida.orm import SinglefileData
-
 from alc_aiidalab_widgets.widgets.file_handling import FileUploadWidget
 
 

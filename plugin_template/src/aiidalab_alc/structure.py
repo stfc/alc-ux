@@ -4,9 +4,9 @@ import aiidalab_widgets_base as awb
 import ipywidgets as ipw
 import traitlets as tl
 from aiida.orm import SinglefileData, StructureData
-from alc_aiidalab_widgets.widgets.structure import StructureViewWidget
-from alc_aiidalab_widgets.widgets.file_handling import FileUploadWidget
 from alc_aiidalab_widgets.widgets.database import AiiDADatabaseQueryWidget
+from alc_aiidalab_widgets.widgets.file_handling import FileUploadWidget
+from alc_aiidalab_widgets.widgets.structure import StructureViewWidget
 
 
 class StructureStepModel(tl.HasTraits):
