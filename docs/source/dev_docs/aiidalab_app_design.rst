@@ -62,6 +62,27 @@ core building blocks for the wizard UI alongside the *M-V-C* paradigm for correc
 It also includes examples for several different widgets components which can be adapted and utilised by your
 application.
 
+Making Your App Discoverable
+----------------------------
+
+When installing new plugins via the AiiDAlab plugin manager interface, plugins will be installed
+and configured into the correct directories to be picked up by the AiiDAlab home page. However,
+when developing plugins it is often required to manually manipulate these directories to make
+sure your in-development application can be found and displayed by AiiDAlab. 
+
+By default AiiDAlab
+will create an ``apps`` directory within the home space of the container running the jupyter server
+instance. This is where all AiiDAlab plugin apps reside and where the home app looks to determine
+which plugins are available. The process for AiiDAlab to install an application typically follows
+as; first checkout a specific release version of the plugin's code from its online host e.g. GitHub
+into the ``apps`` folder. Following this it will run a pip install within the root source directory
+of the plugin if required to install the required backend python UI package.
+
+Apps will be installed in a folder with the same name as the app's name in all lowercase, 
+set in the ``AiiDAlab`` section of the metadata files. Any hardcoded paths, such as links to 
+internal notebooks, should respect this.
+
+
 Core Requirements
 -----------------
 
@@ -100,21 +121,6 @@ and the user. This library is defined in ``src/aiidalab_alc/`` and has various c
 each contribute to different aspects of the AiiDAlab plugins UI.
 
 
-Making Your App Discoverable
-----------------------------
-
-When installing new plugins via the AiiDAlab plugin manager interface, plugins will be installed
-and configured into the correct directories to be picked up by the AiiDAlab home page. However,
-when developing plugins it is often required to manually manipulate these directories to make
-sure your in-development application can be found and displayed by AiiDAlab. By default AiiDAlab
-will create an ``apps`` directory within the home space of the container running the jupyter server
-instance. This is where all AiiDAlab plugin apps reside and where the home app looks to determine
-which plugins are available. The process for AiiDAlab to install an application typically follows
-as first checkout a specific release version of the plugin's code from its online host e.g. GitHub
-into the ``apps`` folder. Following this it will run a pip install within the root source directory
-of the plugin if required to install the required backend python UI package.
-
-
 General Plugin Design Concepts
 ------------------------------
 
@@ -122,12 +128,14 @@ Model-View-Controller Paradigm
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 It is recommended that an AiiDAlab plugin follows the widely recognised Model-View-Controller
-design paradigm for UI development.
+design paradigm for UI development. This specifies a separation of concerns between what the user
+sees (the UI or *view*) and the actual data storage and processing (the *model*).
+
 The core UI package will use ``IPywidgets`` (or AiiDAlab's own pre-configured widgets) to display
 the various UI components that a user will interact with (described later). This defines the
 *view* for the application. The data that is being handled should exist separate to any visual
 components that are part of the applications *view* layer. They are handled by the ``traitlets``
-python packages and can be dynamically linked to user inputs through the *view* layer but should exist independently, thus
+python packages and can be dynamically linked to user inputs through the *view* layer but should exist independently,
 defining the *model* layer. The controller layer is an optional additional layer that defines user
 control over that application that doesn't directly interact with any of the stored data.
 
