@@ -17,9 +17,18 @@ included are example scripts and an example setup for a basic AiiDAlab plugin ap
 .. toctree::
    :maxdepth: 1
 
-   user_docs/index 
-   dev_docs/index 
-   api_docs/modules 
+   overview
+   user_docs/index
+   dev_docs/index
+   api_docs/modules
+
+
+General AiiDAlab Overview and Concepts
+--------------------------------------
+
+For a high-level introduction to how AiiDA and AiiDAlab work together — the
+interface layer, the engine beneath it, and the key components involved — see
+the :doc:`overview`.
 
 
 Issues and Discussion
@@ -32,7 +41,9 @@ if there are any issues/questions please utilise the `issues <https://github.com
 Existing AiiDAlab Projects 
 --------------------------
 
-- `AiiDAlab ChemShell <https://github.com/stfc/aiidalab-chemshell>`_
+- `ChemShell <https://github.com/stfc/aiidalab-chemshell>`_
+- `MLIP <https://github.com/stfc/aiidalab-mlip>`_
+
 
 Existing AiiDA Projects
 -----------------------
