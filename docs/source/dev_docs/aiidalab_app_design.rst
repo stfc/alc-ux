@@ -8,7 +8,9 @@ UI components. Each plugin is required to have a ``setup.cfg`` and a ``start.py`
 within their root directory to specify to AiiDAlab the plugin metadata and how to display
 the start banner for the plugin. From here each page defined within the application is
 described by a jupyter notebook (\*.ipynb) file which may call components from the
-core python package.
+core python package. The core package is written in Python utilising web based UI widgets
+from packages such as IPywidgets. At present AiiDAlab releases support Python 3.12 so all
+apps should do the same. 
 
 AiiDAlab Cookiecutter
 ----------------------
