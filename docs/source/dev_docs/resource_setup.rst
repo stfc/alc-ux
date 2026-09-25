@@ -7,19 +7,19 @@ Beyond AiiDA's reliance on developer maintained plugins to define how workflows 
 out it also relies on a user specifying how and where the backend software programs will run.
 At its simplest this is specifying where the programs executable lives on the local machine
 however, AiiDA excels at being able to communicate with remote high performance compute (HPC)
-resources to carry out longer or more computationally intensive jobs. This setup can be 
-managed by the user and is described in the 
+resources to carry out longer or more computationally intensive jobs. This setup can be
+managed by the user and is described in the
 `AiiDA documentation <https://aiida.readthedocs.io/projects/aiida-core/en/stable/howto/run_codes.html>`_
 and there is a pre-defined UI interface provided by AiiDAlab, discussed in :ref:`custom_resource_management`,
 which provides a more user friendly method to define custom connections. However, when developing
 AiiDAlab plugins it is the goal of the developer to make the user's experience as simple and
 streamline as possible and therefore, there are methods in place which enable the pre-definition
 of these computer/code configurations which can be loaded directly into the UI. The AiiDAlab home
-application has an example of this for some pre-configured compute resources however, these 
-facilities are not available to UKRI based (or associated) researchers. Within this repository 
+application has an example of this for some pre-configured compute resources however, these
+facilities are not available to UKRI based (or associated) researchers. Within this repository
 exists a resource database file `remote.json <https://github.com/stfc/alc-ux/blob/main/resources/remotes.json>`_
 which contains pre-defined configurations for UKRI managed HPC resources. This file can be loaded
-into the AiiDAlab resource setup widget as shown in 
+into the AiiDAlab resource setup widget as shown in
 `AiiDAlab ChemShell <https://github.com/stfc/aiidalab-chemshell/blob/main/notebooks/resources.ipynb>`_
 presenting a much more user friendly method to quickly configure code instances on these pre-defined
 compute resources. A description of the different entries within the *.json* file are given below.
@@ -37,8 +37,8 @@ setup a code instance on this remote machine. These components are the *computer
 which can be used by the AiiDA command line directly.
 
 Within any of the sections it is possible to expose variables which the user can input to tailor
-the configuration, such as the user's username on the remote machine. These are defined in the 
-*metadata.template_variables* section within each of the defined subsections. Each 
+the configuration, such as the user's username on the remote machine. These are defined in the
+*metadata.template_variables* section within each of the defined subsections. Each
 *template_variables* definition provides the following fields:
 
 - default -> The default value for the variable
@@ -65,13 +65,13 @@ including how jobs will be submitted and how resources will be managed. The key 
 - label -> A human readable label to give the computer.
 - hostname -> The hostname of the remote machine.
 - transport -> An AiiDA specification for the method of connection i.e. ``core.ssh`` for ssh connections.
-- scheduler -> An AiiDA specification for the job submission manager i.e. ``core.slurm`` for slurm managed machines.
+- scheduler -> An AiiDA specification for the job submission manager i.e. ``core.slurm`` for SLURM managed machines.
 - work_dir -> The location on the remote machine to store all job files.
 - shebang -> The line dictating the interpreter to use for the submission script.
 - mpirun_command -> Defines how to run MPI parallel jobs.
 - mpiprocs_per_machine -> The total number of processors per CPU node.
 - prepend_text -> Additional text to be added to the submission script before the job's run command.
-- append_text -> Additional text to be added tot he submission script after the job's run command.
+- append_text -> Additional text to be added to the submission script after the job's run command.
 
 codes
 ~~~~~

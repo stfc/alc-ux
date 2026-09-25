@@ -3,52 +3,52 @@
 AiiDAlab Code Setup
 ===================
 
-This guide details how to setup code instances from within the AiiDAlab interface for 
-running custom software packages as part of the AiiDA workflow on both the local and remote 
-machines. 
+This guide details how to setup code instances from within the AiiDAlab interface for
+running custom software packages as part of the AiiDA workflow on both the local and remote
+machines.
 
 Introduction
 ------------
 
-AiiDA requires `code <https://aiida.readthedocs.io/projects/aiida-core/en/stable/howto/run_codes.html#how-to-create-a-code>`_ 
-and `computer <https://aiida.readthedocs.io/projects/aiida-core/en/stable/howto/run_codes.html#how-to-set-up-a-computer>`_ 
-instances to be able to run external software as part of the AiiDA workflow. Whilst it is 
-possible to setup and manage these via the AiiDA provided command line interface, AiiDAlab 
-provides a graphical interface for the same tasks. Whilst this interface is hidden by the 
-default AiiDAlab home application it can be accessed via the AiiDAlab ALC app from the 
-*Setup Resources* button on the navigation bar, 
+AiiDA requires `code <https://aiida.readthedocs.io/projects/aiida-core/en/stable/howto/run_codes.html#how-to-create-a-code>`_
+and `computer <https://aiida.readthedocs.io/projects/aiida-core/en/stable/howto/run_codes.html#how-to-set-up-a-computer>`_
+instances to be able to run external software as part of the AiiDA workflow. Whilst it is
+possible to setup and manage these via the AiiDA provided command line interface, AiiDAlab
+provides a graphical interface for the same tasks. Whilst this interface is hidden by the
+default AiiDAlab home application it can be accessed via the AiiDAlab ALC app from the
+*Setup Resources* button on the navigation bar,
 
-.. figure:: ../../../images/Setup_Resources_Button.png 
-    :width: 80% 
-    :alt: Setup Resources Button 
-    :figclass: centre-fig 
+.. figure:: ../../../images/Setup_Resources_Button.png
+    :width: 80%
+    :alt: Setup Resources Button
+    :figclass: centre-fig
 
 
-This will bring up the AiiDAlab Code setup page from which computer and code instances 
-can be setup. 
+This will bring up the AiiDAlab Code setup page from which computer and code instances
+can be setup.
 
 Local Computer Instance
 -----------------------
 
-The AiiDAlab application comes with access to the local computer as default. This is given the 
-name *localhost* and any locally installed software can be accessed by setting up a code 
-instance based on this computer instance. This generally only includes software that has been 
+The AiiDAlab application comes with access to the local computer as default. This is given the
+name *localhost* and any locally installed software can be accessed by setting up a code
+instance based on this computer instance. This generally only includes software that has been
 installed within the container running the AiiDAlab application, however through binding/mounting
 an external volume into the container additional binaries already present on the local machine could
 be made available within the container. For example, with typical AiiDAlab deployments on ADA cloud
-workspaces the users home directory is directly available within the container and therefore, 
-any software installed within the home space would also be available within the container as 
-long as it doesn't have complex system dependencies which may not be available through the container 
-environment. 
+workspaces the users home directory is directly available within the container and therefore,
+any software installed within the home space would also be available within the container as
+long as it doesn't have complex system dependencies which may not be available through the container
+environment.
 
 
 Remote Computer Instance
 ------------------------
 
-For more computationally expensive tasks it is recommended to setup a connection to a remote 
-HPC cluster where the scientific software will be hosted. AiiDA provides access to remote 
+For more computationally expensive tasks it is recommended to setup a connection to a remote
+HPC cluster where the scientific software will be hosted. AiiDA provides access to remote
 computers via the SSH protocol using SSH key based authentication (*password based authentication
-is not fully supported*). More information on how AiiDA communicates via SSH can be found in the 
+is not fully supported*). More information on how AiiDA communicates via SSH can be found in the
 `AiiDA documentaion <https://aiida.readthedocs.io/projects/aiida-core/en/stable/howto/ssh.html>`_\.
 
 Pre-Configured Connections
@@ -58,8 +58,8 @@ The UI provides several pre-configured computer/code setups via the drop-down me
 quickly configured to provide access to running codes on common remote HPC resources. The database
 from which these codes are drawn can be configured by developers when creating AiiDAlab applications
 or manually edited if using the interface through the ChemShell AiiDAlab application. By default STFC
-developed plugins should link to the STFC resources repository which includes pre-configurations for 
-common codes on compute resources such as SCARF. 
+developed plugins should link to the STFC resources repository which includes pre-configurations for
+common codes on compute resources such as SCARF.
 
 Custom Configurations
 ~~~~~~~~~~~~~~~~~~~~~
@@ -74,25 +74,25 @@ From the AiiDAlab code setup page a remote computer instance can be setup as fol
 
     .. figure:: ../../../images/Resource_Setup_CheckBox.png
         :width: 50%
-        :alt: checkbox to setup resource step by step 
-        :figclass: centre-fig 
+        :alt: checkbox to setup resource step by step
+        :figclass: centre-fig
 
-#.  From here select the **Computer** tab which will bring up a number of options for configuring the 
-    remote computer instance 
+#.  From here select the **Computer** tab which will bring up a number of options for configuring the
+    remote computer instance
 
-#.  Fill in the required configuration options which are described in more detail 
+#.  Fill in the required configuration options which are described in more detail
     `here <https://aiida.readthedocs.io/projects/aiida-core/en/stable/howto/run_codes.html#how-to-set-up-a-computer>`_\.
-    The following figure shows an example for connecting to SCARF utilising the inbuilt AiiDA 
-    SLURM scheduler plugin. 
+    The following figure shows an example for connecting to SCARF utilising the inbuilt AiiDA
+    SLURM scheduler plugin.
 
     .. figure:: ../../../images/scarf_setup_example.png
         :width: 60%
-        :alt: Example setup for SCARF 
-        :figclass: centre-fig 
+        :alt: Example setup for SCARF
+        :figclass: centre-fig
 
 
-#.  Once the required configuration has been filled in the *Setup computer* and *Test computer* 
-    buttons can be used to setup the AiiDA computer instance and test the SSH connection. 
+#.  Once the required configuration has been filled in the *Setup computer* and *Test computer*
+    buttons can be used to setup the AiiDA computer instance and test the SSH connection.
 
 The input fields in the UI closely follow the keys required by the AiiDA command line configuration
 process documented `here <https://aiida.readthedocs.io/projects/aiida-core/en/stable/howto/run_codes.html#how-to-set-up-a-computer>`_\.
@@ -124,8 +124,8 @@ setting up the computer instance.
 Setup Code Instance
 +++++++++++++++++++
 
-The **Code** tab enables the creation of AiiDA code instances which utilise AiiDA plugin to call 
-external software packages for computation. More details about how these work within the AiiDA 
+The **Code** tab enables the creation of AiiDA code instances which utilise AiiDA plugin to call
+external software packages for computation. More details about how these work within the AiiDA
 workflow can be found `here <https://aiida.readthedocs.io/projects/aiida-core/en/stable/howto/run_codes.html#how-to-create-a-code>`_\.
 To setup a AiiDA code instance you need to provide the following components:
 
@@ -137,11 +137,11 @@ To setup a AiiDA code instance you need to provide the following components:
 - **Prepend text** - Any commands which need to be run before the executable such as module or environment loading.
 - **Append text** - Any command which need to be run after the executable.
 
-Once setup the code should appear in the list of *Available Codes* at the bottom of the page. A 
-refresh might be required for it to show. An example for setting up a code instance to run the 
+Once setup the code should appear in the list of *Available Codes* at the bottom of the page. A
+refresh might be required for it to show. An example for setting up a code instance to run the
 `ChemShell <https://github.com/stfc/aiida-chemshell>`_ software is given below.
 
-.. figure:: ../../../images/chemsh_code_example.png 
-    :width: 60% 
-    :alt: ChemShell code configuration example 
-    :figclass: centre-fig 
+.. figure:: ../../../images/chemsh_code_example.png
+    :width: 60%
+    :alt: ChemShell code configuration example
+    :figclass: centre-fig
