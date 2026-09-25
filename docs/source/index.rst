@@ -17,6 +17,7 @@ included are example scripts and an example setup for a basic AiiDAlab plugin ap
 .. toctree::
    :maxdepth: 1
 
+   introduction
    overview
    user_docs/index
    dev_docs/index
