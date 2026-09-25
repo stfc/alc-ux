@@ -78,7 +78,12 @@ however.
 Docker Images For Distribution
 ------------------------------
 
-Whilst it is possible to use the base images by installing plugins at runtime, it is often useful 
+All plugins should be deployed on the AiiDAlab registry and installable through the core AiiDAlab 
+docker image using the built-in plugin store. Users can additionally set the environment variable
+``AIIDALAB_DEFAULT_APPS="app1,app2,app3"`` to install a set of apps when the container is first
+initialised. 
+
+Whilst it is possible to use the base images as above, it is often useful 
 to generate a custom docker image which contains all the required components and plugins for a 
 given workflow out of the box. This can be achieved by building upon the base images described above. 
 An example of this is the ``aiidalab/qe`` image which contains a pre-installed Quantum ESPRESSO plugin 
@@ -95,11 +100,44 @@ installed in the ``/home/jovyan/apps/`` directory so they are discoverable by th
 
     USER root
     
-    # Install the alc-ux AiiDAlab plugin to the apps folder 
-    RUN pip install git+https://github.com/stfc/alc-ux.git#egg=alc-ux --src ${HOME}/apps
+    # Install the alc-ux AiiDAlab plugin to the apps folder at startup 
+    ENV AIIDALAB_DEFAULT_APPS="chemshell,mlip"
 
-    # Install alc aiida plugins (if not configured as dependencies of the AiiDAlab plugin app)
-    RUN pip install aiida-chemshell aiida-mlip --no-cache-dir --no-user  
+    # Install a locally accessible version of the required scientific software
+    RUN ... Install local version of ChemShell and janus-core ...
+
+    # Create a shell file to create the required AiiDA codes at startup
+    COPY 62_setup_aiida_codes.sh /usr/local/bin/before-notebook.d/
+    # Copy the required AiiDA code configuration files that this script will use
+    COPY chemsh_aiida_code.yml /opt/chemsh_aiida_code.yml
 
     USER ${NB_UID}
     WORKDIR ${HOME}
+
+
+where the aiida code setup file would look like this,
+
+.. code:: bash
+
+    #!/bin/bash 
+
+    ## Setup an AiiDA code instance for locally installed ChemShell
+    if verdi code list | grep -q "chemsh@localhost"; then 
+        echo "Found existing AiiDA ChemShell code instance..." 
+    else 
+        echo "Creating AiiDAChemShell code instance..." 
+        verdi code create core.code.installed --config /opt/chemsh.yml --non-interactive
+    fi
+
+and the code config file would look like this,
+
+.. code:: yaml
+
+    label: chemsh
+    description: ChemShell (parallel)
+    computer: localhost
+    filepath_executable: /opt/chemsh-py/bin/gnu/chemsh.x
+    default_calc_job_plugin: chemshell
+    use_double_quotes: false
+    with_mpi: true
+    prepend_text: 'export OMP_NUM_THREADS=1'
