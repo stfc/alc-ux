@@ -24,14 +24,6 @@ included are example scripts and an example setup for a basic AiiDAlab plugin ap
    api_docs/modules
 
 
-General AiiDAlab Overview and Concepts
---------------------------------------
-
-For a high-level introduction to how AiiDA and AiiDAlab work together — the
-interface layer, the engine beneath it, and the key components involved — see
-the :doc:`overview`.
-
-
 Issues and Discussion
 ---------------------
 
