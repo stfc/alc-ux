@@ -14,9 +14,9 @@ required inputs for the workflow in logical steps, then visualise the necessary 
 
 The example AiiDAlab plugin code provided within this repository contains an example for how to create a UI
 for a simplified geometry optimisation workflow utilising the ChemShell multi-scale chemical modelling
-software package, it will provide a basis for the following guides. A more complete and complex expansion 
+software package, it will provide a basis for the following guides. A more complete and complex expansion
 on this example, specifically for ChemShell, can be found at
-`aiidalab-chemshell <https://github.com/stfc/aiidalab-chemshell>`_\. 
+`aiidalab-chemshell <https://github.com/stfc/aiidalab-chemshell>`_\.
 
 Since this is a UI interface which
 will be heavily based on the specific software workflow being carried out, the following guide may not be
@@ -31,8 +31,8 @@ Breaking Down Workflows Into Simple Steps
 
 The first step in implementing a AiiDA workflow as an AiiDAlab UI is to break it down into several
 logical core steps which will define the *"wizard"* steps in the UI interface. At its simplest this
-would be *workflow inputs* -> *code/resource setup* -> *results*. For the geometry optimisation 
-example included in this repository, the *workflow inputs* has been further broken down into 
+would be *workflow inputs* -> *code/resource setup* -> *results*. For the geometry optimisation
+example included in this repository, the *workflow inputs* has been further broken down into
 *initial structure input* -> *workflow inputs*, which enables enhanced interaction and visualisation
 for the structure input step which is often one of the most crucial in the workflow. These steps are
 described in more detail below.
@@ -40,17 +40,17 @@ described in more detail below.
 Structure Input
 ~~~~~~~~~~~~~~~
 
-This wizard contains several options for setting the input structure for the workflow and has the 
-ability to visualise the chemical structure that the user inputs. Separating out this step from 
-the remaining workflow inputs enables the improved visualisation however, it also provides a 
+This wizard contains several options for setting the input structure for the workflow and has the
+ability to visualise the chemical structure that the user inputs. Separating out this step from
+the remaining workflow inputs enables the improved visualisation however, it also provides a
 re-usable framework since the structure input is most likely common across all defined workflows.
-This wizard must expose the structure in its *model* component which will retain this input as the 
-user moves through the remaining wizards. 
+This wizard must expose the structure in its *model* component which will retain this input as the
+user moves through the remaining wizards.
 
 .. figure:: ../../../images/structure_wizard_step.png
-    :width: 90% 
+    :width: 90%
     :alt: Structure Wizard Step Example
-    :figclass: centre-fig 
+    :figclass: centre-fig
 
 Code example: `structure.py <https://github.com/stfc/alc-ux/blob/main/plugin_template/src/aiidalab_alc/structure.py>`_
 
@@ -63,28 +63,28 @@ generally will link to a variable within the workflow steps MVC *model* componen
 users inputs as they move through the remaining inputs.
 
 .. figure:: ../../../images/workflow_wizard_step.png
-    :width: 90% 
-    :alt: Workflow Wizard Step Example 
-    :figclass: centre-fig 
+    :width: 90%
+    :alt: Workflow Wizard Step Example
+    :figclass: centre-fig
 
 Code example: `workflow.py <https://github.com/stfc/alc-ux/blob/main/plugin_template/src/aiidalab_alc/workflow.py>`_
 
 Code Setup
 ~~~~~~~~~~
 
-This wizard exposes fields which allow the user to configure which 
+This wizard exposes fields which allow the user to configure which
 `AiiDA code instance <https://aiida.readthedocs.io/projects/aiida-core/en/stable/howto/run_codes.html>`_
 the workflow will use to carry out the jobs, this includes fields to specify computational resources
 to provide to the code instance such as memory and MPI processes (for parallel codes). These can
 often be set to sensible defaults so the user doesn't need to understand how they work internally.
 Finally this wizard also exposes input fields to provide a label and description which will be applied
-to the submitted AiiDA process node. As this is the final input based step once the submit button is 
+to the submitted AiiDA process node. As this is the final input based step once the submit button is
 pressed the *model* side of the app will collate the input variables provided and submit the process.
 
 .. figure:: ../../../images/resources_wizard_step.png
-    :width: 90% 
+    :width: 90%
     :alt: Code Setup Wizard Step Example
-    :figclass: centre-fig 
+    :figclass: centre-fig
 
 Code example: `resources.py <https://github.com/stfc/alc-ux/blob/main/plugin_template/src/aiidalab_alc/resources.py>`_
 
@@ -96,7 +96,7 @@ it used the process *uuid* to determine the process state and its generated outp
 be visualised within the wizard's *view*.
 
 .. figure:: ../../../images/results_wizard_step.png
-    :width: 90% 
+    :width: 90%
     :alt: Code Setup Wizard Step Example
     :figclass: centre-fig
 
@@ -108,17 +108,17 @@ Process Configuration and Submission
 
 Throughout the design of the UI each visual component (*view*) corresponds to a *model* component
 which stores the state of the variables which will define the inputs to the AiiDA workflow. These
-must remain independent from any visual components and are references by their corresponding *view*
+must remain independent from any visual components and are referenced by their corresponding *view*
 component using functions like *link*, *dlink* and *observe* from the **traitlets** and **ipywidgets**
-modules to link the data values to dynamic UI components. A global application *model* class 
+modules to link the data values to dynamic UI components. A global application *model* class
 defines all the individual *model* components and provides the *glue* that links them together
-once the process is ready for submission. 
+once the process is ready for submission.
 
 There are two methods for **submitting the AiiDA process** using the collated inputs. The first is
-shown in `process.py <https://github.com/stfc/alc-ux/blob/main/plugin_template/src/aiidalab_alc/results.py>`_ 
+shown in `process.py <https://github.com/stfc/alc-ux/blob/main/plugin_template/src/aiidalab_alc/process.py>`_
 which uses the AiiDA builder object for the CalcJob/WorkChain process to assign the required inputs
-and then uses the submit function to submit the process and return a reference to the generated 
-process noe. The other is to simply generate a python dictionary containing all the results and 
+and then uses the submit function to submit the process and return a reference to the generated
+process noe. The other is to simply generate a python dictionary containing all the results and
 pass this directly to the submit function in the form ``submit(CustomWorkChain, **input_dictionary)``.
 
 Exposing Multiple Workflows
@@ -130,7 +130,7 @@ fact that many of the steps are identical across workflows, such as all workflow
 initial structure and the same code/resource setup steps therefore the only aspect that needs updating
 is enabling the *workflow* step to provide UI input components for the new workflow's inputs. This
 can be achieved by simple defining different views for the core input interaction components which
-then can be dynamically loaded into the workflow wizards main view. This should often be a key 
+then can be dynamically loaded into the workflow wizards main view. This should often be a key
 consideration when breaking down the workflow into its constituent steps to improve maintainability
 and adaptability when building upon the existing application.
 
@@ -142,27 +142,27 @@ implemented can be seen in `aiidalab-chemshell <https://github.com/stfc/aiidalab
 Working With WorkGraphs
 -----------------------
 
-AiiDA provides an alternative method for connecting together individual AiiDA jobs in the form 
-of `WorkGraphs <https://aiida-workgraph.readthedocs.io/en/latest/>`_ which additionally provides 
+AiiDA provides an alternative method for connecting together individual AiiDA jobs in the form
+of `WorkGraphs <https://aiida-workgraph.readthedocs.io/en/latest/>`_ which additionally provides
 an alternative UI for creating complex workflows with AiiDA. This option is particularly aimed at
 creating custom multi-step workflows which are not directly exposed within the underlying AiiDA
 plugins, with additional convenience of being able to easily link together different AiiDA plugins
 for different steps of the workflow. They provide both python scripting and UI based editing tools
 for linking together different AiiDA processes tracking how outputs from one process can be directly
-used as inputs for others, with additional support for complex conditional logic. The UI presents a 
+used as inputs for others, with additional support for complex conditional logic. The UI presents a
 convenient flow-chart style visualisation and management of these complex workflows whilst python scripts
-can enable advanced and increasingly complex workflow structure and features. 
+can enable advanced and increasingly complex workflow structure and features.
 
-Detailed documentation for how to create and use AiiDA 
-WorkGraphs and their associated tools is beyond the scope of this document however, 
+Detailed documentation for how to create and use AiiDA
+WorkGraphs and their associated tools is beyond the scope of this document however,
 detailed guides on how to use WorkGraphs can be found `here <https://aiida-workgraph.readthedocs.io/en/latest/>`_\.
 
 WorkGraphs can be integrated with AiiDAlab in a similar fashion as WorkChains, either via direct conversion
-to a WorkChain, or via direct submission through the AiiDAlab plugin using the ``WorkGraphEngine`` from the 
-``aiida_workgraph`` python package. See the 
-`AiiDA WorkGraph documentation <https://aiida-workgraph.readthedocs.io/en/latest/howto/autogen/interoperate_with_aiida_core.html#>`_ 
-for more details on the interoperability of WorkGraphs and WorkChains. 
+to a WorkChain, or via direct submission through the AiiDAlab plugin using the ``WorkGraphEngine`` from the
+``aiida_workgraph`` python package. See the
+`AiiDA WorkGraph documentation <https://aiida-workgraph.readthedocs.io/en/latest/howto/autogen/interoperate_with_aiida_core.html#>`_
+for more details on the interoperability of WorkGraphs and WorkChains.
 
 Additionally, since they both run on the same core concepts, i.e. the underlying AiiDA engine, a user
 can create WorkChains interactively outside the AiiDAlab plugin and still include and visualise the
-processes and outputs within the AiiDAlab UI. 
+processes and outputs within the AiiDAlab UI.
