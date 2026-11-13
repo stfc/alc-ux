@@ -61,14 +61,25 @@
             },
             "codes": {
                 "ChemShell": {
-                    "label": "ChemShell (SCARF)",
+                    "label": "ChemShell-{{ version }}",
                     "description": "ChemShell 25.0.1 (parallel) compiled for SCARF",
                     "filepath_executable": "chemsh.x",
                     "default_calc_job_plugin": "chemshell",
                     "with_mpi": true,
-                    "prepend_text": "module load contrib/chemshell/25.0.1-intel",
+                    "prepend_text": "module load contrib/chemshell/{{ version }}-intel",
                     "append_text": "",
-                    "metadata": {}
+                    "metadata": {
+                        "template_variables": {
+                            "version": {
+                                "type": "list",
+                                "key_display": "Version",
+                                "options": [
+                                    "25.0.1",
+                                ],
+                                "default": "25.0.1"
+                            }
+                        }
+                    }
                 },
                 "QuantumESPRESSO": {
                     "label": "{{ code_binary_name }}-{{ version }}",
